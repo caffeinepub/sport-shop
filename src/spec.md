@@ -1,10 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Ensure each product’s name is clearly shown across the existing UI wherever products are presented.
+**Goal:** Update the shop/site title branding so it displays as “Vikash Sports” wherever the shop name appears.
 
 **Planned changes:**
-- Update the product list cards so each product’s name is rendered as visible English text on every card (not only via image alt text).
-- Update the product details view to display the selected product’s name prominently as the page title/header in English.
+- Change the header title text to display exactly “Vikash Sports”.
+- Update the browser tab/page title to “Vikash Sports” (optionally with a short suffix) and remove any old shop name.
 
-**User-visible outcome:** Users can clearly see product names on both the product listing cards and the product details page header, with all product-name-related UI text shown in English.
+**User-visible outcome:** The app shows “Vikash Sports” as the shop name in the header and in the browser tab/page title.

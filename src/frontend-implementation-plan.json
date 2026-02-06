@@ -1,26 +1,31 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Ensure product names are visibly rendered in list cards and product details",
+  "title": "Update shop branding text to Vikash Sports",
   "requirements": [
     {
-      "id": "REQ-9",
-      "summary": "Render each product’s name as visible English text in all existing product presentation areas (product list cards and product details header).",
+      "id": "REQ-10",
+      "summary": "Replace the displayed shop/site title with \"Vikash Sports\" in the header and browser tab/page title (and remove the old name from user-facing branding text).",
       "acceptanceCriteria": [
-        "On the product list, every product card displays the product name as visible text (not only as an image alt attribute).",
-        "On the product details view, the selected product’s name is displayed prominently as the page title/header.",
-        "No user-facing text related to product naming is introduced in a non-English language."
+        "The header title text displays exactly \"Vikash Sports\".",
+        "The browser tab/page title displays \"Vikash Sports\" (or \"Vikash Sports\" plus an optional short suffix) and does not show the old name.",
+        "All user-facing text involved in this change is in English."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ProductList.tsx",
+          "path": "frontend/src/components/SportsShopHeader.tsx",
           "operation": "modify",
-          "description": "Ensure each product card always renders a visible product name line (e.g., keep the existing heading but add an English fallback like \"Unnamed product\" if name is missing/blank), so the name is never conveyed only via the image alt attribute."
+          "description": "Update the header’s site title text from the old shop name to exactly \"Vikash Sports\"."
         },
         {
-          "path": "frontend/src/components/ProductDetails.tsx",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Ensure the product details view header/title prominently displays the product name (keep as an H1) and add an English fallback (e.g., \"Unnamed product\") if name is missing/blank."
+          "description": "Update the document <title> so the browser tab/page title shows \"Vikash Sports\" (optionally with a short suffix) and does not show the old name."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Update any remaining user-facing branding text that uses the old shop/site title (e.g., hero image alt text) to \"Vikash Sports\" to ensure the old name is not displayed anywhere the title/branding appears."
         }
       ]
     }

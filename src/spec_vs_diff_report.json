@@ -1,15 +1,16 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T03:09:02.430Z",
-  "summary": "REQ-9 appears implemented: product names are rendered as visible text on product list cards and as the prominent header/title on the product details view, with English-only fallback text.",
+  "generatedAt": "2026-02-06T03:12:57.765Z",
+  "summary": "REQ-10 appears implemented: the header site title now displays exactly \"Vikash Sports\", and the browser tab/page title is set to \"Vikash Sports\" in the HTML entry point. No evidence of required backend changes (none requested).",
   "missing_requirements": [],
   "hallucinated_features": [],
-  "confidence": 0.9,
+  "confidence": 0.86,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/ProductDetails.tsx",
-    "frontend/src/components/ProductList.tsx",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/SportsShopHeader.tsx",
     "project_state.json"
   ]
 }

@@ -44,7 +44,7 @@ function App() {
             <div className="relative mb-12 overflow-hidden rounded-2xl">
               <img
                 src="/assets/generated/sports-hero.dim_1600x600.png"
-                alt="Sports Shop Hero"
+                alt="Vikash Sports Hero"
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent flex items-center">

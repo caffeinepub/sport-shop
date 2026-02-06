@@ -1,11 +1,12 @@
 {
   "frontend/src/data/products.ts": "Defines the Product interface and exports a seeded array of five sports products (Cricket Bat, Football, Running Shoes, Tennis Racket, Sports Jersey) with id, name, price, and description.",
-  "frontend/src/components/SportsShopHeader.tsx": "Header component displaying the Sports Shop title and a cart indicator with count and icon image, styled with a sticky position and backdrop blur.",
+  "frontend/src/components/SportsShopHeader.tsx": "Header component displaying \"Vikash Sports\" as the site title with a cart indicator showing count and icon, styled with sticky positioning and backdrop blur.",
   "frontend/src/components/ProductList.tsx": "Presentational component rendering a responsive grid of product cards with clickable images/titles, view details buttons, and add-to-cart actions, now with English fallback text for missing product names.",
-  "frontend/src/App.tsx": "Main application component managing cart state and selected product navigation, conditionally rendering ProductList or ProductDetails views with consistent header and footer across both.",
+  "frontend/src/App.tsx": "Main application component managing cart state and product navigation, with hero image alt text updated to \"Vikash Sports Hero\", conditionally rendering ProductList or ProductDetails views with consistent header and footer.",
   "frontend/index.css": "Global stylesheet defining OKLCH color tokens for light and dark modes with a teal/blue primary color scheme (hue 145) for the sports theme.",
   "frontend/tailwind.config.js": "Tailwind configuration extending the theme with Inter font family, OKLCH color system, custom border radius, and animation utilities.",
   "frontend/src/main.tsx": "Application entry point that sets up React Query and Internet Identity providers, renders the App component, and imports the global CSS stylesheet from the same directory.",
   "frontend/src/index.css": "Global stylesheet defining OKLCH color tokens for light and dark modes with a teal/blue primary color scheme (hue 145) for the sports theme, including Tailwind directives.",
-  "frontend/src/components/ProductDetails.tsx": "Product details view component displaying full product information with image, name, price, description, and add-to-cart functionality, including a not-found state and English fallback text for missing product names."
+  "frontend/src/components/ProductDetails.tsx": "Product details view component displaying full product information with image, name, price, description, and add-to-cart functionality, including a not-found state and English fallback text for missing product names.",
+  "frontend/index.html": "HTML entry point with updated page title \"Vikash Sports\" displayed in the browser tab."
 }

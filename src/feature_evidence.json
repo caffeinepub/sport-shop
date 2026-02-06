@@ -2,11 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-ensure-each-product-s-name-is-clearly-displayed-in-all-existing-product-presentation-areas-including-the-product-list-cards-and-the-product-details-view-using-english-user-facing-text",
-      "featureTitle": "Ensure each product’s name is clearly displayed in all existing product presentation areas, including the product list cards and the product details view, using English user-facing text.",
+      "featureId": "feature-update-the-shop-branding-text-so-the-app-displays-the-shop-name-as-vikash-sports-anywhere-the-shop-site-title-is-shown-including-the-header-title-and-the-browser-tab-page-title",
+      "featureTitle": "Update the shop branding text so the app displays the shop name as \"Vikash Sports\" anywhere the shop/site title is shown (including the header title and the browser tab/page title).",
       "files": [
-        "frontend/src/components/ProductDetails.tsx",
-        "frontend/src/components/ProductList.tsx"
+        "frontend/index.html",
+        "frontend/src/App.tsx",
+        "frontend/src/components/SportsShopHeader.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -16,7 +17,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-9"
+        "REQ-10"
       ],
       "confidence": "high"
     }

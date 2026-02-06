@@ -1,38 +1,48 @@
 {
   "kind": "build_request",
-  "title": "Ensure product name is displayed throughout the UI",
+  "title": "Update shop name to Vikash Sports",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-9",
-      "text": "Ensure each product’s name is clearly displayed in all existing product presentation areas, including the product list cards and the product details view, using English user-facing text.",
+      "id": "REQ-10",
+      "text": "Update the shop branding text so the app displays the shop name as \"Vikash Sports\" anywhere the shop/site title is shown (including the header title and the browser tab/page title).",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-6"
         ],
         "quotes": [
-          "Add Product name"
+          "Shop name is vikash sports"
         ]
       },
       "acceptanceCriteria": [
-        "On the product list, every product card displays the product name as visible text (not only as an image alt attribute).",
-        "On the product details view, the selected product’s name is displayed prominently as the page title/header.",
-        "No user-facing text related to product naming is introduced in a non-English language."
+        "The header title text displays exactly \"Vikash Sports\".",
+        "The browser tab/page title displays \"Vikash Sports\" (or \"Vikash Sports\" plus an optional short suffix) and does not show the old name.",
+        "All user-facing text involved in this change is in English."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui or any other paths listed in frontend.immutablePaths.",
-    "Backend must remain a single Motoko actor; only add migration.mo if an existing stable state schema must change."
+    "Do not edit files under frontend/src/components/ui or any paths listed as frontend immutablePaths.",
+    "Keep the backend as a single Motoko actor; no backend changes are required for this request."
   ],
   "nonGoals": [
-    "Adding a new cart page or checkout flow.",
-    "Adding product creation/editing forms or admin functionality.",
-    "Changing the seeded product catalog content beyond ensuring names are displayed."
+    "Adding a cart page or checkout flow.",
+    "Changing product data, pricing, or cart logic.",
+    "Redesigning the overall UI theme beyond updating the shop name text."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

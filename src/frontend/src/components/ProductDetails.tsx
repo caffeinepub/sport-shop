@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { type Product } from '../data/products';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
 
@@ -8,6 +9,8 @@ interface ProductDetailsProps {
 }
 
 export function ProductDetails({ product, onBack, onAddToCart }: ProductDetailsProps) {
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
   // Handle product not found
   if (!product) {
     return (
@@ -42,6 +45,9 @@ export function ProductDetails({ product, onBack, onAddToCart }: ProductDetailsP
     );
   }
 
+  const images = product.images || ['/assets/generated/product-placeholder.dim_256x256.png'];
+  const currentImage = images[selectedImageIndex] || images[0];
+
   return (
     <div className="max-w-5xl mx-auto">
       <button
@@ -53,13 +59,40 @@ export function ProductDetails({ product, onBack, onAddToCart }: ProductDetailsP
       </button>
 
       <div className="grid gap-8 md:grid-cols-2">
-        {/* Product Image */}
-        <div className="overflow-hidden rounded-2xl border border-border bg-muted">
-          <img
-            src="/assets/generated/product-placeholder.dim_256x256.png"
-            alt={product.name || 'Unnamed product'}
-            className="w-full h-auto object-cover"
-          />
+        {/* Product Image Gallery */}
+        <div className="space-y-4">
+          {/* Main Image */}
+          <div className="overflow-hidden rounded-2xl border border-border bg-muted">
+            <img
+              src={currentImage}
+              alt={`${product.name || 'Unnamed product'} - Image ${selectedImageIndex + 1}`}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+
+          {/* Thumbnail Gallery */}
+          {images.length > 1 && (
+            <div className="grid grid-cols-4 gap-3">
+              {images.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`overflow-hidden rounded-lg border-2 transition-all hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                    selectedImageIndex === index
+                      ? 'border-primary shadow-md'
+                      : 'border-border'
+                  }`}
+                  aria-label={`View image ${index + 1}`}
+                >
+                  <img
+                    src={image}
+                    alt={`${product.name} thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover aspect-square"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Product Information */}

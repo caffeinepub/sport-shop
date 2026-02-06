@@ -20,7 +20,7 @@ export function ProductList({ products, onAdd, onViewDetails }: ProductListProps
             onClick={() => onViewDetails(product.id)}
           >
             <img
-              src="/assets/generated/product-placeholder.dim_256x256.png"
+              src={product.images?.[0] || '/assets/generated/product-placeholder.dim_256x256.png'}
               alt={product.name || 'Unnamed product'}
               className="h-full w-full object-cover transition-transform group-hover:scale-105"
             />

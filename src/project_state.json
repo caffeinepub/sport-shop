@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 13,
+  "projectStateVersion": 21,
   "summary": "Build a simple Sports Shop web app featuring a product list, product details, cart functionality (count + cart page), and a basic checkout flow.",
   "architectural_notes": [],
   "known_issues": [],
@@ -133,6 +133,38 @@
         "REQ-17"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-an-order-details-view-page-that-can-be-opened-from-the-order-history-view-for-a-specific-order-and-display-the-order-s-id-date-time-item-list-name-price-quantity-line-totals-subtotal-total-customer-shipping-details-and-selected-payment-method-using-clear-english-user-facing-text",
+      "title": "Add an Order Details view/page that can be opened from the Order History view for a specific order, and display the order’s ID, date/time, item list (name, price, quantity, line totals), subtotal/total, customer/shipping details, and selected payment method using clear English user-facing text.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-payment-options-to-the-checkout-view-by-allowing-the-user-to-select-a-payment-method-before-placing-the-order-validate-that-a-payment-method-is-selected-and-include-the-selected-payment-method-in-the-order-success-flow-and-any-order-summaries-receipts-shown-in-the-ui",
+      "title": "Add payment options to the Checkout view by allowing the user to select a payment method before placing the order, validate that a payment method is selected, and include the selected payment method in the order success flow and any order summaries/receipts shown in the UI.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-wire-the-checkout-flow-to-use-the-backend-order-placement-api-instead-of-generating-a-mock-order-id-and-update-the-frontend-order-history-source-of-truth-to-load-orders-from-the-backend-so-order-history-and-order-details-remain-available-after-navigation-refresh",
+      "title": "Wire the Checkout flow to use the backend order placement API (instead of generating a mock order ID), and update the frontend order history source of truth to load orders from the backend so Order History and Order Details remain available after navigation/refresh.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-seeded-product-catalog-to-include-additional-product-options-jacket-half-pant-full-pant-and-football-t-shirt-english-names-so-these-products-appear-on-the-home-page-product-grid-and-can-be-opened-in-the-product-details-view-and-added-to-the-cart-like-existing-products",
+      "title": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -172,6 +204,44 @@
       "reqIds": [
         "REQ-15"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Add an Order History page so users can view past orders after checkout.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Add an Order Details page/view (view details of a specific order after checkout)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Add payment options during checkout (allow selecting a payment method and include it in the order flow)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Implement backend order APIs in the single Motoko actor to support creating and retrieving orders, including persisting the selected payment method and customer/shipping details as part of the order record.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Add product picture options (allow selecting/setting product images for products in the catalog/UI)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Add more products to the home page/catalog (e.g., Jacket, Half Pant, Full Pant, Football, T-Shirt) as additional product options.",
+      "reqIds": [],
       "status": "pending"
     }
   ],

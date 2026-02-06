@@ -1,44 +1,23 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T03:26:27.086Z",
-  "summary": "Frontend adds Checkout and Order Confirmation views and wires basic navigation and cart clearing, but backend order placement (Motoko actor changes) is not present in the diff summary, and some checkout edge-case behaviors are not fully evidenced due to truncation.",
-  "missing_requirements": [
+  "generatedAt": "2026-02-06T04:07:12.186Z",
+  "summary": "REQ-22’s core change (extending the seeded frontend product catalog with Jacket, Half Pant, Full Pant, and Football T-Shirt) is implemented in `frontend/src/data/products.ts` with unique IDs, prices, English descriptions, and non-empty images arrays. Other UI-related acceptance criteria (home grid display, details view display, add-to-cart behavior, and header cart count updates for the new items) are not directly evidenced as changed in this diff, though they may already work via existing shared components.",
+  "missing_requirements": [],
+  "hallucinated_features": [
     {
-      "id": "REQ-15",
-      "requirement": "Add backend order placement so the Checkout view can place an order and receive an order identifier (order data model, createOrder method, persisted canister state).",
-      "reason": "The diff summary shows no changes to backend/main.mo (or any backend files) implementing an order model, a public createOrder method, or persisted order storage.",
+      "description": "Unrequested change to OrderConfirmationView wiring: removed a `subtotal` prop from `OrderConfirmationView` call because the component now calculates subtotal internally.",
+      "reason": "BuildRequest only asks to add seeded products to the catalog (REQ-22) and explicitly notes backend changes not required; no requirement mentions order confirmation subtotal calculation or prop changes.",
       "evidence": [
-        "File diff summary: Added/Modified files list contains only frontend files; no backend/main.mo changes shown.",
-        "frontend/src/lib/orders.ts: calls (actor as any).createOrder(request) with comment 'backend interface is not yet implemented'"
-      ]
-    },
-    {
-      "id": "REQ-17",
-      "requirement": "If the backend create-order call fails, show a non-technical English error message and allow retrying without losing typed form inputs.",
-      "reason": "CheckoutView includes a submitError state, but the error-handling UI/wording and retry behavior are not visible in the provided truncated content, so this acceptance criterion is not confirmed by the diff summary.",
-      "evidence": [
-        "frontend/src/components/CheckoutView.tsx (truncated): shows submitError state and begins handling actor-missing error ('Unable to connect to the backend. P...') but rest is truncated."
-      ]
-    },
-    {
-      "id": "REQ-17",
-      "requirement": "The “Place order” button shows a loading state while the order is being submitted and prevents duplicate submissions.",
-      "reason": "CheckoutView defines isSubmitting state, but the actual button rendering/disabled/loading behavior is not visible in the truncated diff content, so this acceptance criterion is not confirmed.",
-      "evidence": [
-        "frontend/src/components/CheckoutView.tsx (truncated): defines const [isSubmitting, setIsSubmitting] = useState(false); but button usage not shown due to truncation."
+        "frontend/src/App.tsx (per `frontend-file-summaries.txt`: \"removed subtotal prop from OrderConfirmationView call since component calculates it internally\")",
+        "frontend/src/components/OrderConfirmationView.tsx (per `frontend-file-summaries.txt`: \"calculates subtotal internally\")"
       ]
     }
   ],
-  "hallucinated_features": [],
-  "confidence": 0.64,
+  "confidence": 0.68,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/App.tsx",
-    "frontend/src/components/CartView.tsx",
-    "frontend/src/components/CheckoutView.tsx",
-    "frontend/src/components/OrderConfirmationView.tsx",
-    "frontend/src/lib/orders.ts",
+    "frontend/src/data/products.ts",
     "project_state.json"
   ]
 }

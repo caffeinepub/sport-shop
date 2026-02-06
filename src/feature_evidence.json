@@ -2,12 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-checkout-view-that-can-be-reached-from-the-cart-page-via-an-enabled-proceed-to-checkout-button-when-the-cart-is-not-empty",
-      "featureTitle": "Add a Checkout view that can be reached from the Cart page via an enabled “Proceed to Checkout” button when the cart is not empty.",
+      "featureId": "feature-extend-the-seeded-product-catalog-to-include-additional-product-options-jacket-half-pant-full-pant-and-football-t-shirt-english-names-so-these-products-appear-on-the-home-page-product-grid-and-can-be-opened-in-the-product-details-view-and-added-to-the-cart-like-existing-products",
+      "featureTitle": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/CartView.tsx",
-        "frontend/src/components/CheckoutView.tsx"
+        "frontend/src/data/products.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -17,66 +15,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-13"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-a-checkout-form-that-collects-basic-customer-and-shipping-details-using-english-user-facing-labels-and-provides-a-clear-order-summary",
-      "featureTitle": "Implement a Checkout form that collects basic customer and shipping details using English user-facing labels and provides a clear order summary.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/CheckoutView.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-14"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-connect-the-checkout-view-to-the-backend-order-placement-api-and-show-an-order-confirmation-view-after-a-successful-order",
-      "featureTitle": "Connect the Checkout view to the backend order placement API and show an Order Confirmation view after a successful order.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/CheckoutView.tsx",
-        "frontend/src/components/OrderConfirmationView.tsx",
-        "frontend/src/lib/orders.ts"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-16"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-handle-checkout-edge-cases-gracefully-empty-cart-backend-errors-with-clear-english-messages",
-      "featureTitle": "Handle checkout edge cases gracefully (empty cart, backend errors) with clear English messages.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/CheckoutView.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-17"
+        "REQ-22"
       ],
       "confidence": "high"
     }

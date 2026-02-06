@@ -1,111 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Basic checkout flow (checkout form, place order, confirmation)",
+  "title": "Extend seeded home catalog with additional products",
   "requirements": [
     {
-      "id": "REQ-13",
-      "summary": "Add a Checkout view reachable from Cart via an enabled “Proceed to Checkout” button when the cart is not empty.",
+      "id": "REQ-22",
+      "summary": "Add Jacket, Half Pant, Full Pant, and Football T-Shirt to the seeded product catalog so they appear on the home grid, open in product details, and can be added to cart like existing items.",
       "acceptanceCriteria": [
-        "When the cart has at least 1 item, the Cart page shows an enabled “Proceed to Checkout” button (replacing the current disabled button / “Checkout coming soon” text).",
-        "Clicking “Proceed to Checkout” navigates to a dedicated Checkout view without a full page reload.",
-        "When the cart is empty, the checkout action is not available and the existing empty-cart UI remains unchanged."
+        "`frontend/src/data/products.ts` includes new `Product` entries for: \"Jacket\", \"Half Pant\", \"Full Pant\", and \"Football T-Shirt\" with unique `id` values, `price` values, English `description` text, and a non-empty `images` array for each.",
+        "The home page product list displays the newly added products alongside the existing seeded products without layout issues.",
+        "Each newly added product can be opened in the product details view and shows its name, price, description, and images.",
+        "Each newly added product can be added to the cart from both the product list and product details views, and the header cart count updates accordingly."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/CartView.tsx",
+          "path": "frontend/src/data/products.ts",
           "operation": "modify",
-          "description": "Replace the current disabled checkout button with an enabled “Proceed to Checkout” action when items.length > 0; keep the existing empty-cart UI unchanged. Use existing shadcn-ui Button/Card/Separator composition (do not modify components under frontend/src/components/ui). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Extend the in-app view state to include a dedicated 'checkout' view and wire navigation from CartView via a new onProceedToCheckout callback; ensure this is client-side view switching without full reload."
-        },
-        {
-          "path": "frontend/src/components/CheckoutView.tsx",
-          "operation": "create",
-          "description": "Create a dedicated CheckoutView component (reachable from App view state) that will be shown after clicking “Proceed to Checkout”. This view will be further implemented in REQ-14/REQ-16/REQ-17. Use shadcn-ui building blocks for layout/controls; verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "summary": "Implement a Checkout form that collects customer/shipping details (English labels) and shows an order summary consistent with the cart.",
-      "acceptanceCriteria": [
-        "Checkout view displays a form with at least: Full name, Email, Address line, City, Postal/ZIP code (all labels and helper text in English).",
-        "Checkout view displays an order summary showing line items (name, quantity, line total) and subtotal consistent with the Cart calculations.",
-        "Checkout view includes a “Back to cart” action that returns to the Cart view and preserves cart contents.",
-        "Submitting the form with missing required fields shows inline or near-form validation messaging in English and does not place an order."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/CheckoutView.tsx",
-          "operation": "modify",
-          "description": "Implement the checkout form fields (Full name, Email, Address line, City, Postal/ZIP) with English labels and inline validation messaging; include an order summary that matches CartView subtotal/line totals; add a “Back to cart” action that uses callbacks to return to Cart without altering cart state. Compose shadcn-ui form-related components (e.g., Input/Label) and existing Card/Separator/Button; do not modify components under frontend/src/components/ui. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Pass cart items and navigation callbacks into CheckoutView (including back-to-cart) so returning preserves cart contents and calculations remain consistent with CartView."
-        }
-      ]
-    },
-    {
-      "id": "REQ-16",
-      "summary": "Connect Checkout to backend order placement and show an Order Confirmation view on success; clear cart and provide “Continue shopping”.",
-      "acceptanceCriteria": [
-        "Clicking “Place order” on the Checkout view calls the backend create-order method with the cart contents and checkout form data.",
-        "On success, the UI navigates to an Order Confirmation view showing: confirmation heading in English, the returned order id, and a summary of items/subtotal.",
-        "After a successful order, the cart state in the frontend is cleared and the header cart count updates to 0.",
-        "Order Confirmation view provides a “Continue shopping” action that navigates back to the product list."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/backend.d.ts",
-          "operation": "modify",
-          "description": "Update the frontend backendInterface type to include the order placement capability used by the Checkout view (a create-order method returning an order identifier), so the frontend integration is type-safe."
-        },
-        {
-          "path": "frontend/src/lib/orders.ts",
-          "operation": "create",
-          "description": "Add a small frontend helper that maps current cart items + checkout form data into the payload shape expected by the backend create-order capability and invokes it via the actor from core-infrastructure; keep it UI-agnostic and reusable by CheckoutView."
-        },
-        {
-          "path": "frontend/src/components/CheckoutView.tsx",
-          "operation": "modify",
-          "description": "Wire “Place order” to call the backend create-order capability via useActor (core-infrastructure) and the orders helper; on success, invoke callbacks to clear the cart and navigate to an Order Confirmation view, passing the returned order id plus a snapshot of items/subtotal for display. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/OrderConfirmationView.tsx",
-          "operation": "create",
-          "description": "Create an OrderConfirmationView that displays an English confirmation heading, the returned order id, and a summary of purchased items/subtotal; include a “Continue shopping” action that navigates back to the product list. Use shadcn-ui components for layout/typography/actions; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Add an 'orderConfirmation' view to App state, wire navigation from CheckoutView to OrderConfirmationView, store transient confirmation data (order id + items/subtotal snapshot), clear cart state after successful order, and ensure header cart count updates to 0; wire “Continue shopping” to return to product list."
-        }
-      ]
-    },
-    {
-      "id": "REQ-17",
-      "summary": "Handle checkout edge cases (empty cart, backend errors, loading/duplicate submission) with clear English messages.",
-      "acceptanceCriteria": [
-        "If the user reaches Checkout with an empty cart (e.g., after clearing items), the app shows an English message indicating the cart is empty and provides a way to return to products or cart.",
-        "If the backend create-order call fails, the Checkout view shows a non-technical English error message and allows retrying without losing the typed form inputs.",
-        "The “Place order” button shows a loading state while the order is being submitted and prevents duplicate submissions."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/CheckoutView.tsx",
-          "operation": "modify",
-          "description": "Add empty-cart guarding UI when items are empty (English message + action(s) back to products/cart); implement backend error handling with a non-technical English message while preserving current form inputs; add submission loading state and disable “Place order” to prevent duplicate submissions. Compose shadcn-ui components (alerts/text/buttons) as needed without modifying frontend/src/components/ui. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Ensure navigation to Checkout view is resilient if cart becomes empty (e.g., due to cart clearing from elsewhere) by passing current cart items and providing routes/actions back to cart or products through callbacks."
+          "description": "Extend the exported seeded `products` array by adding 4 new `Product` entries named \"Jacket\", \"Half Pant\", \"Full Pant\", and \"Football T-Shirt\" with unique string `id`s (not colliding with existing ids), reasonable `price` numbers, English `description` text, and non-empty `images` arrays (use the existing placeholder asset path already used by other products)."
         }
       ]
     }

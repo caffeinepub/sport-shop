@@ -1,80 +1,24 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T03:26:27.089Z",
+  "generatedAt": "2026-02-06T04:07:12.191Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
-    "implemented": 4,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
-        "id": "REQ-13",
-        "summary": "Add a Checkout view that can be reached from the Cart page via an enabled “Proceed to Checkout” button when the cart is not empty.",
+        "id": "REQ-22",
+        "summary": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/CartView.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/components/CheckoutView.tsx"
+          "frontend/src/data/products.ts"
         ],
         "matchedFiles": [
-          "frontend/src/components/CartView.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/components/CheckoutView.tsx"
-        ]
-      },
-      {
-        "id": "REQ-14",
-        "summary": "Implement a Checkout form that collects basic customer and shipping details using English user-facing labels and provides a clear order summary.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/CheckoutView.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/CheckoutView.tsx",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-15",
-        "summary": "Add backend order placement so the Checkout view can place an order and receive an order identifier.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-16",
-        "summary": "Connect the Checkout view to the backend order placement API and show an Order Confirmation view after a successful order.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/backend.d.ts",
-          "frontend/src/lib/orders.ts",
-          "frontend/src/components/CheckoutView.tsx",
-          "frontend/src/components/OrderConfirmationView.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/backend.d.ts",
-          "frontend/src/lib/orders.ts",
-          "frontend/src/components/CheckoutView.tsx",
-          "frontend/src/components/OrderConfirmationView.tsx",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-17",
-        "summary": "Handle checkout edge cases gracefully (empty cart, backend errors) with clear English messages.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/CheckoutView.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/CheckoutView.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/data/products.ts"
         ]
       }
     ]
@@ -84,12 +28,7 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/components/CartView.tsx",
-    "frontend/src/components/CheckoutView.tsx",
-    "frontend/src/components/OrderConfirmationView.tsx",
-    "frontend/src/lib/orders.ts",
+    "frontend/src/data/products.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

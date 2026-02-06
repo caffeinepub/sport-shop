@@ -5,10 +5,11 @@ import { ProductDetails } from './components/ProductDetails';
 import { CartView } from './components/CartView';
 import { CheckoutView } from './components/CheckoutView';
 import { OrderConfirmationView } from './components/OrderConfirmationView';
+import { OrderHistoryView } from './components/OrderHistoryView';
 import { products, type Product } from './data/products';
 import { Heart } from 'lucide-react';
 
-type View = 'list' | 'details' | 'cart' | 'checkout' | 'orderConfirmation';
+type View = 'list' | 'details' | 'cart' | 'checkout' | 'orderConfirmation' | 'orderHistory';
 
 // Cart item with quantity tracking
 interface CartItem {
@@ -23,11 +24,24 @@ interface OrderConfirmation {
   subtotal: number;
 }
 
+// Stored order with timestamp
+export interface StoredOrder {
+  orderId: string;
+  items: CartItem[];
+  subtotal: number;
+  timestamp: number;
+  customerInfo: {
+    fullName: string;
+    email: string;
+  };
+}
+
 function App() {
   const [cartItems, setCartItems] = useState<Map<string, CartItem>>(new Map());
   const [currentView, setCurrentView] = useState<View>('list');
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [orderConfirmation, setOrderConfirmation] = useState<OrderConfirmation | null>(null);
+  const [orderHistory, setOrderHistory] = useState<StoredOrder[]>([]);
 
   // Calculate total cart count (sum of all quantities)
   const cartCount = Array.from(cartItems.values()).reduce(
@@ -124,6 +138,10 @@ function App() {
     setCurrentView('cart');
   };
 
+  const handleNavigateToOrderHistory = () => {
+    setCurrentView('orderHistory');
+  };
+
   const handleProceedToCheckout = () => {
     setCurrentView('checkout');
   };
@@ -132,7 +150,7 @@ function App() {
     setCurrentView('cart');
   };
 
-  const handleOrderSuccess = (orderId: string) => {
+  const handleOrderSuccess = (orderId: string, customerName: string, customerEmail: string) => {
     // Calculate subtotal before clearing cart
     const cartItemsArray = Array.from(cartItems.values());
     const subtotal = cartItemsArray.reduce(
@@ -146,6 +164,19 @@ function App() {
       items: cartItemsArray,
       subtotal,
     });
+
+    // Add to order history
+    const newOrder: StoredOrder = {
+      orderId,
+      items: cartItemsArray,
+      subtotal,
+      timestamp: Date.now(),
+      customerInfo: {
+        fullName: customerName,
+        email: customerEmail,
+      },
+    };
+    setOrderHistory((prev) => [newOrder, ...prev]);
 
     // Clear cart
     handleClearCart();
@@ -167,15 +198,22 @@ function App() {
       <SportsShopHeader 
         cartCount={cartCount} 
         onNavigateToCart={handleNavigateToCart}
+        onNavigateToOrderHistory={handleNavigateToOrderHistory}
+        onNavigateHome={handleBackToList}
       />
       
       <main className="container py-8">
-        {currentView === 'orderConfirmation' ? (
+        {currentView === 'orderHistory' ? (
+          // Order History View
+          <OrderHistoryView
+            orders={orderHistory}
+            onBack={handleBackToList}
+          />
+        ) : currentView === 'orderConfirmation' ? (
           // Order Confirmation View
           <OrderConfirmationView
             orderId={orderConfirmation?.orderId || ''}
             items={orderConfirmation?.items || []}
-            subtotal={orderConfirmation?.subtotal || 0}
             onContinueShopping={handleBackToList}
           />
         ) : currentView === 'checkout' ? (

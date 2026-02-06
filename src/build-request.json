@@ -1,114 +1,50 @@
 {
   "kind": "build_request",
-  "title": "Add a basic checkout flow (checkout form, place order, confirmation)",
+  "title": "Add more product options to the home catalog (Jacket, Half Pant, Full Pant, Football T-Shirt)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-13",
-      "text": "Add a Checkout view that can be reached from the Cart page via an enabled “Proceed to Checkout” button when the cart is not empty.",
+      "id": "REQ-22",
+      "text": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-3"
         ],
         "quotes": [
-          "Want me to help you add checkout next?\nUser: Yes"
+          "Build home page and add jacket.half pant.fullpant.football t shirt more product options"
         ]
       },
       "acceptanceCriteria": [
-        "When the cart has at least 1 item, the Cart page shows an enabled “Proceed to Checkout” button (replacing the current disabled button / “Checkout coming soon” text).",
-        "Clicking “Proceed to Checkout” navigates to a dedicated Checkout view without a full page reload.",
-        "When the cart is empty, the checkout action is not available and the existing empty-cart UI remains unchanged."
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "text": "Implement a Checkout form that collects basic customer and shipping details using English user-facing labels and provides a clear order summary.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "Want me to help you add checkout next?\nUser: Yes"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Checkout view displays a form with at least: Full name, Email, Address line, City, Postal/ZIP code (all labels and helper text in English).",
-        "Checkout view displays an order summary showing line items (name, quantity, line total) and subtotal consistent with the Cart calculations.",
-        "Checkout view includes a “Back to cart” action that returns to the Cart view and preserves cart contents.",
-        "Submitting the form with missing required fields shows inline or near-form validation messaging in English and does not place an order."
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Add backend order placement so the Checkout view can place an order and receive an order identifier.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "Want me to help you add checkout next?\nUser: Yes"
-        ]
-      },
-      "acceptanceCriteria": [
-        "backend/main.mo defines an order data model that includes: order id, timestamp, buyer principal, customer fields captured from checkout, and ordered items (product id/name/price, quantity).",
-        "Backend exposes a public method to create an order from the current cart and checkout form payload and returns a unique order id.",
-        "Orders are persisted in canister state (so they remain available after subsequent calls during the same deployment)."
-      ]
-    },
-    {
-      "id": "REQ-16",
-      "text": "Connect the Checkout view to the backend order placement API and show an Order Confirmation view after a successful order.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "Want me to help you add checkout next?\nUser: Yes"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Clicking “Place order” on the Checkout view calls the backend create-order method with the cart contents and checkout form data.",
-        "On success, the UI navigates to an Order Confirmation view showing: confirmation heading in English, the returned order id, and a summary of items/subtotal.",
-        "After a successful order, the cart state in the frontend is cleared and the header cart count updates to 0.",
-        "Order Confirmation view provides a “Continue shopping” action that navigates back to the product list."
-      ]
-    },
-    {
-      "id": "REQ-17",
-      "text": "Handle checkout edge cases gracefully (empty cart, backend errors) with clear English messages.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "Want me to help you add checkout next?\nUser: Yes"
-        ]
-      },
-      "acceptanceCriteria": [
-        "If the user reaches Checkout with an empty cart (e.g., after clearing items), the app shows an English message indicating the cart is empty and provides a way to return to products or cart.",
-        "If the backend create-order call fails, the Checkout view shows a non-technical English error message and allows retrying without losing the typed form inputs.",
-        "The “Place order” button shows a loading state while the order is being submitted and prevents duplicate submissions."
+        "`frontend/src/data/products.ts` includes new `Product` entries for: \"Jacket\", \"Half Pant\", \"Full Pant\", and \"Football T-Shirt\" with unique `id` values, `price` values, English `description` text, and a non-empty `images` array for each.",
+        "The home page product list displays the newly added products alongside the existing seeded products without layout issues.",
+        "Each newly added product can be opened in the product details view and shows its name, price, description, and images.",
+        "Each newly added product can be added to the cart from both the product list and product details views, and the header cart count updates accordingly."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
-    "Only generate backend/migration.mo if an upgrade-safe state migration is required by the changes (do not add migration if not needed).",
-    "Do not modify any frontend files under frontend/src/components/ui or any path listed in frontend.immutablePaths; compose those components instead."
+    "Use English for any user-facing text.",
+    "Do not edit files under `frontend/src/components/ui` or other paths listed in `frontend.immutablePaths`.",
+    "Backend must remain single-actor; only add backend changes if required (not required for this request)."
   ],
   "nonGoals": [
-    "Implementing real payment processing or third-party payment providers (e.g., Stripe).",
-    "User accounts beyond existing Internet Identity capability (no third-party auth).",
-    "Inventory management, shipping rate calculations, taxes, discounts, or coupons.",
-    "Admin order management UI. "
+    "Implementing new backend product APIs or persisting a product catalog in the backend.",
+    "Adding new pages beyond the existing home/product details/cart/checkout/order views.",
+    "Changing the existing visual theme unless required to accommodate the added products."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

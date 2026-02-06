@@ -1,4 +1,67 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-update-the-checkout-flow-to-place-real-orders-through-the-backend-order-placement-api-remove-the-mock-order-id-generation-and-include-the-selected-payment-method-and-customer-shipping-details-in-the-order-record",
+      "featureTitle": "Update the Checkout flow to place real orders through the backend order placement API (remove the mock order id generation) and include the selected payment method and customer/shipping details in the order record.",
+      "files": [
+        "frontend/src/components/CheckoutView.tsx",
+        "frontend/src/lib/orders.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-40"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-order-history-load-from-the-backend-as-the-source-of-truth-so-orders-remain-available-after-navigation-refresh-and-keep-the-ui-behavior-consistent-with-the-current-order-history-screen",
+      "featureTitle": "Make Order History load from the backend as the source of truth so orders remain available after navigation/refresh, and keep the UI behavior consistent with the current Order History screen.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/OrderHistoryView.tsx",
+        "frontend/src/hooks/useOrders.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-41"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-frontend-backend-typing-is-updated-so-order-apis-are-called-without-using-unsafe-casts-like-actor-as-any-and-user-facing-text-remains-in-english",
+      "featureTitle": "Ensure frontend backend-typing is updated so order APIs are called without using unsafe casts like (actor as any), and user-facing text remains in English.",
+      "files": [
+        "frontend/src/components/CheckoutView.tsx",
+        "frontend/src/components/OrderHistoryView.tsx",
+        "frontend/src/lib/orders.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-42"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

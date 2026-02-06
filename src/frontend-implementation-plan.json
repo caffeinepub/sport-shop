@@ -1,6 +1,87 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "No changes requested (payment method confirmed)",
-  "requirements": []
+  "title": "Wire Checkout to typed backend order creation and load Order History from backend via React Query",
+  "requirements": [
+    {
+      "id": "REQ-40",
+      "summary": "Update Checkout to create real orders via the backend order API (no mock IDs), including payment method and customer/shipping details, and navigate using the returned orderId.",
+      "acceptanceCriteria": [
+        "frontend/src/components/CheckoutView.tsx no longer generates a mock order ID or uses a simulated delay; it calls the existing frontend order creation helper and/or backend actor method",
+        "The request sent to the backend includes: items (productId, productName, price, quantity), customer/shipping fields (fullName, email, addressLine, city, postalCode), and the selected payment method from the UI",
+        "On successful backend response, the UI navigates to the existing Order Confirmation view using the returned backend orderId",
+        "On backend failure, the user sees a clear English error message and the UI re-enables submission without losing already-entered form values"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CheckoutView.tsx",
+          "operation": "modify",
+          "description": "Replace mock order ID generation and simulated delay with a real create-order call using the typed actor (via the existing order creation helper), sending items + customer/shipping fields + selected payment method; handle success by calling onOrderSuccess with the backend-returned orderId, and handle failure by showing an English error while re-enabling the submit button without clearing form state."
+        },
+        {
+          "path": "frontend/src/lib/orders.ts",
+          "operation": "modify",
+          "description": "Update the order creation helper to build the backend create-order request payload (items with productId/productName/price/quantity, customer/shipping fields, payment method) and return a stringified backend orderId suitable for the existing confirmation UI; ensure it uses typed actor calls (no unsafe casts)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "summary": "Load Order History from the backend as the source of truth using React Query, preserving current Order History UI behavior and empty state.",
+      "acceptanceCriteria": [
+        "Order History is no longer based solely on in-memory React state in App.tsx; it fetches orders from the backend when the Order History view is opened and/or on app load (using the project’s React Query stack)",
+        "The existing empty state (“No orders yet”) still appears when the backend returns zero orders",
+        "Order History entries render with correct order id, date/time, items, totals, and customer info based on backend data",
+        "Refreshing the page after placing an order still shows the order in Order History"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useOrders.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for order data: a query hook to list the caller’s orders from the typed backend actor and a mutation hook (or shared helper) to create an order and invalidate/refetch the list; keep all user-facing error text in English."
+        },
+        {
+          "path": "frontend/src/components/OrderHistoryView.tsx",
+          "operation": "modify",
+          "description": "Refactor OrderHistoryView to fetch orders from the backend using the project’s React Query stack (via a new useOrders hook) when the view is shown, render the existing empty state when zero orders are returned, and map backend order data to the existing UI fields (order id, timestamp/date, items, totals, and customer info) without changing the overall screen behavior."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Remove Order History as an in-memory source of truth in App state and wire navigation so the OrderHistoryView is rendered without relying on App-managed orderHistory; ensure the checkout success flow triggers an orders query refresh/invalidation so Order History reflects newly placed orders."
+        }
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "summary": "Update frontend backend typing and call sites to use typed order APIs (no (actor as any)), ensure English user-facing text, and avoid changes to immutable UI paths by composing existing components.",
+      "acceptanceCriteria": [
+        "frontend/src/lib/orders.ts (and any related call sites) calls typed backend actor methods without (actor as any)",
+        "Any newly introduced user-facing strings (errors, labels, headings) are in English",
+        "No changes are made to files under frontend/src/components/ui or other immutable paths; compose existing UI components instead"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/backend.d.ts",
+          "operation": "modify",
+          "description": "Update the generated backend type definitions for the order APIs (create order request/response and order shape used by Order History) so frontend code can call actor methods without unsafe casts."
+        },
+        {
+          "path": "frontend/src/lib/orders.ts",
+          "operation": "modify",
+          "description": "Remove any remaining unsafe actor casts and align helper types to the updated backend order API typing; keep all error messages and labels in English."
+        },
+        {
+          "path": "frontend/src/components/CheckoutView.tsx",
+          "operation": "modify",
+          "description": "Ensure CheckoutView uses the typed order creation helper/actor calls (no any-casts) and that any newly introduced error messaging remains in English while reusing existing UI components (no edits under frontend/src/components/ui)."
+        },
+        {
+          "path": "frontend/src/components/OrderHistoryView.tsx",
+          "operation": "modify",
+          "description": "Ensure Order History backend calls are typed (no any-casts) and any new loading/error UI text is in English while composing existing UI components (no edits under frontend/src/components/ui)."
+        }
+      ]
+    }
+  ]
 }

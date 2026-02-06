@@ -16,6 +16,7 @@ import { useHeroImagePreference, type HeroImageOption } from './hooks/useHeroIma
 import { useUserAddedProducts } from './hooks/useUserAddedProducts';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 type View = 'list' | 'details' | 'cart' | 'checkout' | 'orderConfirmation' | 'orderHistory' | 'favorites';
 
@@ -30,18 +31,6 @@ interface OrderConfirmation {
   orderId: string;
   items: CartItem[];
   subtotal: number;
-}
-
-// Stored order with timestamp
-export interface StoredOrder {
-  orderId: string;
-  items: CartItem[];
-  subtotal: number;
-  timestamp: number;
-  customerInfo: {
-    fullName: string;
-    email: string;
-  };
 }
 
 const HERO_OPTIONS: { value: HeroImageOption; label: string; src: string }[] = [
@@ -63,11 +52,11 @@ const HERO_OPTIONS: { value: HeroImageOption; label: string; src: string }[] = [
 ];
 
 function App() {
+  const queryClient = useQueryClient();
   const [cartItems, setCartItems] = useState<Map<string, CartItem>>(new Map());
   const [currentView, setCurrentView] = useState<View>('list');
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [orderConfirmation, setOrderConfirmation] = useState<OrderConfirmation | null>(null);
-  const [orderHistory, setOrderHistory] = useState<StoredOrder[]>([]);
   const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
   
   // Filter state
@@ -255,18 +244,8 @@ function App() {
       subtotal,
     });
 
-    // Add to order history
-    const newOrder: StoredOrder = {
-      orderId,
-      items: cartItemsArray,
-      subtotal,
-      timestamp: Date.now(),
-      customerInfo: {
-        fullName: customerName,
-        email: customerEmail,
-      },
-    };
-    setOrderHistory((prev) => [newOrder, ...prev]);
+    // Invalidate orders query to refetch from backend
+    queryClient.invalidateQueries({ queryKey: ['callerOrders'] });
 
     // Clear cart
     handleClearCart();
@@ -334,10 +313,7 @@ function App() {
           />
         ) : currentView === 'orderHistory' ? (
           // Order History View
-          <OrderHistoryView
-            orders={orderHistory}
-            onBack={handleBackToList}
-          />
+          <OrderHistoryView onBack={handleBackToList} />
         ) : currentView === 'orderConfirmation' ? (
           // Order Confirmation View
           <OrderConfirmationView

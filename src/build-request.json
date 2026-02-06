@@ -1,29 +1,97 @@
 {
   "kind": "build_request",
-  "title": "No changes requested (payment method confirmed)",
+  "title": "Implement backend order APIs and wire checkout to persistent Order History",
   "priority": "normal",
-  "requirements": [],
+  "requirements": [
+    {
+      "id": "REQ-39",
+      "text": "Implement order persistence APIs in the single Motoko backend actor so the app can create and retrieve orders for Order History.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Your latest version is live—want to extend the payment flow with order history next?"
+        ]
+      },
+      "acceptanceCriteria": [
+        "backend/main.mo exposes a createOrder method that accepts a request containing customer/shipping details, payment method, and line items (product id/name, price, quantity) and returns a new orderId",
+        "backend/main.mo persists created orders in stable state so orders remain available after navigation/refresh/canister upgrade",
+        "backend/main.mo exposes an API to list orders (for Order History) and an API to fetch a single order by orderId (for Order Details / deep linking)",
+        "Errors are returned in a predictable way (e.g., Result type) for invalid input such as empty items, missing required customer fields, or invalid payment method",
+        "All backend logic remains in backend/main.mo (single-actor architecture)"
+      ]
+    },
+    {
+      "id": "REQ-40",
+      "text": "Update the Checkout flow to place real orders through the backend order placement API (remove the mock order id generation) and include the selected payment method and customer/shipping details in the order record.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "frontend/src/components/CheckoutView.tsx no longer generates a mock order ID or uses a simulated delay; it calls the existing frontend order creation helper and/or backend actor method",
+        "The request sent to the backend includes: items (productId, productName, price, quantity), customer/shipping fields (fullName, email, addressLine, city, postalCode), and the selected payment method from the UI",
+        "On successful backend response, the UI navigates to the existing Order Confirmation view using the returned backend orderId",
+        "On backend failure, the user sees a clear English error message and the UI re-enables submission without losing already-entered form values"
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "text": "Make Order History load from the backend as the source of truth so orders remain available after navigation/refresh, and keep the UI behavior consistent with the current Order History screen.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Order History is no longer based solely on in-memory React state in App.tsx; it fetches orders from the backend when the Order History view is opened and/or on app load (using the project’s React Query stack)",
+        "The existing empty state (“No orders yet”) still appears when the backend returns zero orders",
+        "Order History entries render with correct order id, date/time, items, totals, and customer info based on backend data",
+        "Refreshing the page after placing an order still shows the order in Order History"
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "text": "Ensure frontend backend-typing is updated so order APIs are called without using unsafe casts like (actor as any), and user-facing text remains in English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-0"
+        ],
+        "quotes": [
+          "Use English for any user-facing text in the build request."
+        ]
+      },
+      "acceptanceCriteria": [
+        "frontend/src/lib/orders.ts (and any related call sites) calls typed backend actor methods without (actor as any)",
+        "Any newly introduced user-facing strings (errors, labels, headings) are in English",
+        "No changes are made to files under frontend/src/components/ui or other immutable paths; compose existing UI components instead"
+      ]
+    }
+  ],
   "constraints": [
-    "Use English for any user-facing text.",
-    "Do not edit files under frontend/src/components/ui or any other frontend immutable paths listed in SYSTEM_CONTEXT.",
-    "Keep all Motoko logic in the single main actor (backend/main.mo). Only add migration.mo if state upgrades are required."
+    "Backend must remain a single Motoko actor in backend/main.mo; do not introduce additional backend services",
+    "Only generate backend/migration.mo if required by stable-state upgrade needs; follow the conditional migration policy",
+    "Do not edit immutable frontend paths (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*); use composition or changes in other files instead"
   ],
   "nonGoals": [
-    "Do not add new features or modify existing checkout/payment behavior since the user confirmed it works as expected.",
-    "Do not redesign UI or change visual theme unless explicitly requested."
+    "Add third-party payment processing (Stripe, PayPal, etc.)",
+    "Add non-Internet-Identity authentication providers",
+    "Add real-time updates (WebSockets) for orders"
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

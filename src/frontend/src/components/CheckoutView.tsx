@@ -114,19 +114,22 @@ export function CheckoutView({ items, onBack, onOrderSuccess }: CheckoutViewProp
       return;
     }
 
+    if (!actor) {
+      setError('Unable to connect to the backend. Please try again.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // Generate a mock order ID since backend is empty
-      const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+      // Create order via backend
+      const orderId = await createOrder(actor, items);
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Call success handler with customer info
-      onOrderSuccess(orderId, formData.fullName, formData.email);
+      // Call success handler with backend order ID
+      onOrderSuccess(orderId.toString(), formData.fullName, formData.email);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create order');
+      console.error('Order creation error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to create order. Please try again.');
       setIsSubmitting(false);
     }
   };

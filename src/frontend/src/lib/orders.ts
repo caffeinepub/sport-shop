@@ -1,4 +1,4 @@
-import type { backendInterface } from '../backend';
+import type { backendInterface, CartItem as BackendCartItem } from '../backend';
 import type { Product } from '../data/products';
 
 interface CartItem {
@@ -14,54 +14,24 @@ interface FormData {
   postalCode: string;
 }
 
-// Local type definitions for order creation
-interface OrderItem {
-  productId: string;
-  productName: string;
-  price: number;
-  quantity: number;
-}
-
-interface CustomerInfo {
-  fullName: string;
-  email: string;
-  addressLine: string;
-  city: string;
-  postalCode: string;
-}
-
-interface CreateOrderRequest {
-  customerInfo: CustomerInfo;
-  items: OrderItem[];
-}
-
 export async function createOrder(
   actor: backendInterface,
-  customerInfo: FormData,
   items: CartItem[]
-): Promise<string> {
-  const orderItems: OrderItem[] = items.map((item) => ({
-    productId: item.product.id,
-    productName: item.product.name,
-    price: item.product.price,
-    quantity: item.quantity,
+): Promise<bigint> {
+  // Convert cart items to backend format
+  const backendItems: BackendCartItem[] = items.map((item) => ({
+    productId: BigInt(item.product.id),
+    quantity: BigInt(item.quantity),
   }));
 
-  const customerData: CustomerInfo = {
-    fullName: customerInfo.fullName,
-    email: customerInfo.email,
-    addressLine: customerInfo.addressLine,
-    city: customerInfo.city,
-    postalCode: customerInfo.postalCode,
-  };
+  // Calculate total in cents
+  const totalCents = items.reduce(
+    (total, item) => total + Math.round(item.product.price * 100) * item.quantity,
+    0
+  );
 
-  const request: CreateOrderRequest = {
-    customerInfo: customerData,
-    items: orderItems,
-  };
-
-  // Type assertion needed since backend interface is not yet implemented
-  const orderId = await (actor as any).createOrder(request);
+  // Create order via backend
+  const orderId = await actor.createOrder(backendItems, BigInt(totalCents));
 
   return orderId;
 }

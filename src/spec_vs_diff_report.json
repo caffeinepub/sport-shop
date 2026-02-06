@@ -1,20 +1,89 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T05:05:17.955Z",
-  "summary": "BuildRequest specified no changes and no requirements, but the diff modifies project_state.json to describe a Sports Shop app and lists multiple REQ-* features, which constitutes unrequested scope changes in project metadata.",
-  "missing_requirements": [],
-  "hallucinated_features": [
+  "generatedAt": "2026-02-06T05:14:27.846Z",
+  "summary": "The diff adds basic order creation/listing on the backend and wires some frontend views to React Query, but it does not implement the required order data model (customer/shipping/payment/line item details), does not persist orders in stable state, uses traps instead of predictable Result-style errors, and appears to break Order History for non-admin users by calling an admin-only getAllOrders. It also modifies an explicitly immutable frontend hook (useActor.ts) and introduces unrelated access-control/admin-token/url-param functionality not requested.",
+  "missing_requirements": [
     {
-      "description": "Modified project metadata to describe building a Sports Shop web app and enumerate multiple requested features (REQ-1 through at least REQ-9, and more truncated), despite the BuildRequest explicitly requesting no changes/new features.",
-      "reason": "BuildRequest states \"No changes requested\" and \"Requirements: none\" / \"Do not add new features or modify existing checkout/payment behavior\". The only change is to project_state.json adding/maintaining a feature list and summary unrelated to the request.",
+      "id": "REQ-39",
+      "requirement": "createOrder must accept customer/shipping details, payment method, and line items (product id/name, price, quantity), persist orders in stable state across upgrades, provide list-orders for Order History and get-by-orderId, and return predictable (e.g., Result) errors for invalid input.",
+      "reason": "Backend createOrder only accepts items ([CartItem {productId, quantity}]) and totalCents, stores orders in non-stable vars, and uses Runtime.trap strings for errors. The stored Order lacks customer/shipping/payment fields and lacks productName/price. getAllOrders is admin-only and there is no caller-specific list API for Order History.",
       "evidence": [
-        "project_state.json"
+        "backend/main.mo (createOrder(items : [CartItem], totalCents : Nat))",
+        "backend/main.mo (type CartItem = { productId : Nat; quantity : Nat; })",
+        "backend/main.mo (type Order = { principal; items; totalCents; timestamp; orderId; })",
+        "backend/main.mo (let orders = List.empty<Order>(); var nextOrderId = 1; // not stable)",
+        "backend/main.mo (getAllOrders traps if not admin; getOrder traps on not found/unauthorized)",
+        "backend/migration.mo (empty run)"
+      ]
+    },
+    {
+      "id": "REQ-40",
+      "requirement": "Checkout must call the real backend order API (no mock ID/delay) and send items with productId/productName/price/quantity plus customer/shipping fields and selected payment method; on success navigate using returned orderId; on failure show clear English error and re-enable submission without losing form values.",
+      "reason": "CheckoutView collects shipping + payment method, but the actual order call uses createOrder(actor, items) which only sends productId and quantity (and computed total) and does not include customer/shipping/payment method. The backend API also cannot accept those fields.",
+      "evidence": [
+        "frontend/src/components/CheckoutView.tsx (formData + paymentMethod state, then const orderId = await createOrder(actor, items);)",
+        "frontend/src/lib/orders.ts (createOrder(actor, items) converts to BackendCartItem {productId, quantity} and calls actor.createOrder(backendItems, totalCents))",
+        "backend/main.mo (createOrder signature lacks customer/shipping/payment)"
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "requirement": "Order History must load from backend as source of truth (React Query), show empty state when backend returns zero orders, and render correct order info for the signed-in user; refresh should still show placed orders.",
+      "reason": "OrderHistoryView fetches via useGetCallerOrders() which calls actor.getAllOrders(), but backend/main.mo restricts getAllOrders to admins only. The hook converts Unauthorized into an empty list, which would cause regular users to always see 'No orders yet' even after placing orders, violating persistence/refresh behavior and correctness.",
+      "evidence": [
+        "frontend/src/hooks/useOrders.ts (queryFn calls actor.getAllOrders(); Unauthorized => return [])",
+        "backend/main.mo (getAllOrders traps: 'Unauthorized: Only admins can fetch all orders')",
+        "frontend/src/components/OrderHistoryView.tsx (uses useGetCallerOrders and shows 'No orders yet' when orders.length === 0)"
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "requirement": "Do not edit immutable frontend paths (including frontend/src/hooks/useActor.ts); keep user-facing text in English; call typed backend methods without unsafe casts.",
+      "reason": "An immutable file (frontend/src/hooks/useActor.ts) is modified. While typed calls appear in orders.ts, the immutability constraint is violated.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts (modified per diff summary)"
       ]
     }
   ],
-  "confidence": 0.74,
+  "hallucinated_features": [
+    {
+      "description": "Admin-token/secret URL parameter handling and access-control initialization in the actor hook.",
+      "reason": "BuildRequest focuses on order APIs and wiring checkout/history. The diff adds reading a 'caffeineAdminToken' from URL/session and calls a backend initialization method for access control.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts (getSecretParameter('caffeineAdminToken'); actor._initializeAccessControlWithSecret(adminToken))",
+        "frontend/src/utils/urlParams.ts (sessionStorage + URL param persistence utilities)"
+      ]
+    },
+    {
+      "description": "Authorization / access-control mixin integration and user profile APIs on the backend.",
+      "reason": "Not requested by REQ-39..42. The backend introduces AccessControl state, MixinAuthorization include, admin/user permission checks, and user profile getters/savers.",
+      "evidence": [
+        "backend/main.mo (import MixinAuthorization, AccessControl; include MixinAuthorization(accessControlState))",
+        "backend/main.mo (getCallerUserProfile/getUserProfile/saveCallerUserProfile; userProfiles map)"
+      ]
+    },
+    {
+      "description": "Empty backend migration module generation.",
+      "reason": "BuildRequest says only generate backend/migration.mo if required by stable-state upgrade needs. The added migration is a no-op and the backend does not show stable variables/upgrade hooks that require it in the provided diff.",
+      "evidence": [
+        "backend/migration.mo (run({} : {}) : {} { {}; })",
+        "backend/main.mo (with migration = Migration.run)"
+      ]
+    }
+  ],
+  "confidence": 0.82,
   "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/CheckoutView.tsx",
+    "frontend/src/components/OrderHistoryView.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useOrders.ts",
+    "frontend/src/lib/orders.ts",
+    "frontend/src/utils/urlParams.ts",
     "project_state.json"
   ]
 }

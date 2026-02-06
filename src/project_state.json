@@ -1,10 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 37,
+  "projectStateVersion": 39,
   "summary": "Build a simple Sports Shop web app featuring a product list, product details, cart functionality (count + cart page), and a basic checkout flow.",
   "architectural_notes": [
     "User confirmed they want to proceed with implementing product filtering on the home/product list now (AR-17).",
-    "User confirmed they want to proceed with adding a payment method selection during checkout (AR-11)."
+    "User confirmed they want to proceed with adding a payment method selection during checkout (AR-11).",
+    "User confirmed they want to extend the payment/checkout flow by implementing Order History next (AR-9)."
   ],
   "known_issues": [],
   "isFixRequest": false,
@@ -296,6 +297,30 @@
         "REQ-38"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-checkout-flow-to-place-real-orders-through-the-backend-order-placement-api-remove-the-mock-order-id-generation-and-include-the-selected-payment-method-and-customer-shipping-details-in-the-order-record",
+      "title": "Update the Checkout flow to place real orders through the backend order placement API (remove the mock order id generation) and include the selected payment method and customer/shipping details in the order record.",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-order-history-load-from-the-backend-as-the-source-of-truth-so-orders-remain-available-after-navigation-refresh-and-keep-the-ui-behavior-consistent-with-the-current-order-history-screen",
+      "title": "Make Order History load from the backend as the source of truth so orders remain available after navigation/refresh, and keep the UI behavior consistent with the current Order History screen.",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-frontend-backend-typing-is-updated-so-order-apis-are-called-without-using-unsafe-casts-like-actor-as-any-and-user-facing-text-remains-in-english",
+      "title": "Ensure frontend backend-typing is updated so order APIs are called without using unsafe casts like (actor as any), and user-facing text remains in English.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -421,6 +446,14 @@
       "id": "AR-24",
       "summary": "Add a product gallery (display multiple product images in the UI, e.g., on product details)",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Implement order persistence APIs in the single Motoko backend actor so the app can create and retrieve orders for Order History.",
+      "reqIds": [
+        "REQ-39"
+      ],
       "status": "pending"
     }
   ],

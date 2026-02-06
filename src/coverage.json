@@ -1,20 +1,90 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T05:05:17.957Z",
+  "generatedAt": "2026-02-06T05:14:27.849Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 0,
-    "implemented": 0,
-    "items": []
+    "total": 4,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-39",
+        "summary": "Implement order persistence APIs in the single Motoko backend actor so the app can create and retrieve orders for Order History.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-40",
+        "summary": "Update the Checkout flow to place real orders through the backend order placement API (remove the mock order id generation) and include the selected payment method and customer/shipping details in the order record.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/lib/orders.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/lib/orders.ts"
+        ]
+      },
+      {
+        "id": "REQ-41",
+        "summary": "Make Order History load from the backend as the source of truth so orders remain available after navigation/refresh, and keep the UI behavior consistent with the current Order History screen.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useOrders.ts",
+          "frontend/src/components/OrderHistoryView.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useOrders.ts",
+          "frontend/src/components/OrderHistoryView.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-42",
+        "summary": "Ensure frontend backend-typing is updated so order APIs are called without using unsafe casts like (actor as any), and user-facing text remains in English.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/backend.d.ts",
+          "frontend/src/lib/orders.ts",
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/components/OrderHistoryView.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/backend.d.ts",
+          "frontend/src/lib/orders.ts",
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/components/OrderHistoryView.tsx"
+        ]
+      }
+    ]
   },
   "changedFiles": [
+    "backend/authorization/MixinAuthorization.mo",
+    "backend/authorization/access-control.mo",
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
+    "caffeine.lock.json",
     "feature_evidence.json",
+    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/CheckoutView.tsx",
+    "frontend/src/components/OrderHistoryView.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useOrders.ts",
+    "frontend/src/lib/orders.ts",
+    "frontend/src/utils/urlParams.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

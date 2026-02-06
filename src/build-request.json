@@ -1,19 +1,29 @@
 {
   "kind": "build_request",
-  "title": "Add payment method during checkout",
+  "title": "No changes requested (payment method confirmed)",
   "priority": "normal",
   "requirements": [],
   "constraints": [
-    "Do not edit any files under frontend/src/components/ui or other paths listed in frontend.immutablePaths.",
-    "Keep all Motoko backend logic in the single actor at backend/main.mo; only add backend/migration.mo if an upgrade requires state migration.",
-    "Use English for all user-facing text."
+    "Use English for any user-facing text.",
+    "Do not edit files under frontend/src/components/ui or any other frontend immutable paths listed in SYSTEM_CONTEXT.",
+    "Keep all Motoko logic in the single main actor (backend/main.mo). Only add migration.mo if state upgrades are required."
   ],
   "nonGoals": [
-    "Adding third-party payment processing (e.g., Stripe, PayPal) or external wallet integrations.",
-    "Storing or processing real card/bank details."
+    "Do not add new features or modify existing checkout/payment behavior since the user confirmed it works as expected.",
+    "Do not redesign UI or change visual theme unless explicitly requested."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

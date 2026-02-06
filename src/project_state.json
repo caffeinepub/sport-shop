@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 35,
+  "projectStateVersion": 37,
   "summary": "Build a simple Sports Shop web app featuring a product list, product details, cart functionality (count + cart page), and a basic checkout flow.",
   "architectural_notes": [
     "User confirmed they want to proceed with implementing product filtering on the home/product list now (AR-17).",

@@ -1,14 +1,20 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T05:00:12.006Z",
-  "summary": "The diff primarily updates the checkout UI to include payment method selection and related form inputs/validation. The BuildRequest lists no explicit requirements or acceptance criteria beyond the title/constraints, and no clear unimplemented requirements can be identified from the provided diff summary.",
+  "generatedAt": "2026-02-06T05:05:17.955Z",
+  "summary": "BuildRequest specified no changes and no requirements, but the diff modifies project_state.json to describe a Sports Shop app and lists multiple REQ-* features, which constitutes unrequested scope changes in project metadata.",
   "missing_requirements": [],
-  "hallucinated_features": [],
-  "confidence": 0.62,
+  "hallucinated_features": [
+    {
+      "description": "Modified project metadata to describe building a Sports Shop web app and enumerate multiple requested features (REQ-1 through at least REQ-9, and more truncated), despite the BuildRequest explicitly requesting no changes/new features.",
+      "reason": "BuildRequest states \"No changes requested\" and \"Requirements: none\" / \"Do not add new features or modify existing checkout/payment behavior\". The only change is to project_state.json adding/maintaining a feature list and summary unrelated to the request.",
+      "evidence": [
+        "project_state.json"
+      ]
+    }
+  ],
+  "confidence": 0.74,
   "changed_files": [
-    "frontend-file-summaries.txt",
-    "frontend/src/components/CheckoutView.tsx",
     "project_state.json"
   ]
 }

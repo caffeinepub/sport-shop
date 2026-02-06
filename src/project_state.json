@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 7,
   "summary": "Build a simple Sports Shop web app featuring a product list, basic cart functionality, and product details.",
   "architectural_notes": [],
   "known_issues": [],
@@ -69,6 +69,14 @@
         "REQ-8"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-ensure-each-product-s-name-is-clearly-displayed-in-all-existing-product-presentation-areas-including-the-product-list-cards-and-the-product-details-view-using-english-user-facing-text",
+      "title": "Ensure each product’s name is clearly displayed in all existing product presentation areas, including the product list cards and the product details view, using English user-facing text.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -81,6 +89,12 @@
     {
       "id": "AR-2",
       "summary": "Add product details view/page for each product (navigate from product list and show product information)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Ensure the product name is displayed in the UI (e.g., on product cards and/or any relevant product display areas)",
       "reqIds": [],
       "status": "pending"
     }

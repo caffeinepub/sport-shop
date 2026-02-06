@@ -57,7 +57,7 @@ export function ProductDetails({ product, onBack, onAddToCart }: ProductDetailsP
         <div className="overflow-hidden rounded-2xl border border-border bg-muted">
           <img
             src="/assets/generated/product-placeholder.dim_256x256.png"
-            alt={product.name}
+            alt={product.name || 'Unnamed product'}
             className="w-full h-auto object-cover"
           />
         </div>
@@ -66,7 +66,7 @@ export function ProductDetails({ product, onBack, onAddToCart }: ProductDetailsP
         <div className="flex flex-col">
           <div className="flex-1">
             <h1 className="text-4xl font-bold tracking-tight mb-4">
-              {product.name}
+              {product.name || 'Unnamed product'}
             </h1>
             
             <div className="mb-6">

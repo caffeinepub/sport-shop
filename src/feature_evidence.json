@@ -2,10 +2,9 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-product-details-view-page-that-can-be-opened-from-the-product-list-for-a-specific-product-showing-that-product-s-name-image-price-and-full-description",
-      "featureTitle": "Add a product details view/page that can be opened from the product list for a specific product, showing that product’s name, image, price, and full description.",
+      "featureId": "feature-ensure-each-product-s-name-is-clearly-displayed-in-all-existing-product-presentation-areas-including-the-product-list-cards-and-the-product-details-view-using-english-user-facing-text",
+      "featureTitle": "Ensure each product’s name is clearly displayed in all existing product presentation areas, including the product list cards and the product details view, using English user-facing text.",
       "files": [
-        "frontend/src/App.tsx",
         "frontend/src/components/ProductDetails.tsx",
         "frontend/src/components/ProductList.tsx"
       ],
@@ -17,45 +16,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-6"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-allow-adding-the-currently-viewed-product-to-the-cart-from-the-product-details-view-and-ensure-the-cart-count-in-the-header-updates-consistently-across-both-the-product-list-and-product-details-views",
-      "featureTitle": "Allow adding the currently viewed product to the cart from the product details view, and ensure the cart count in the header updates consistently across both the product list and product details views.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/ProductDetails.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-7"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-handle-invalid-or-missing-product-selection-gracefully-when-opening-the-product-details-view-e-g-show-a-simple-product-not-found-message-with-a-way-to-return-to-the-product-list",
-      "featureTitle": "Handle invalid or missing product selection gracefully when opening the product details view (e.g., show a simple “Product not found” message with a way to return to the product list).",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/ProductDetails.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-8"
+        "REQ-9"
       ],
       "confidence": "high"
     }

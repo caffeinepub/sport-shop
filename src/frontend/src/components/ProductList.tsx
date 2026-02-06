@@ -21,7 +21,7 @@ export function ProductList({ products, onAdd, onViewDetails }: ProductListProps
           >
             <img
               src="/assets/generated/product-placeholder.dim_256x256.png"
-              alt={product.name}
+              alt={product.name || 'Unnamed product'}
               className="h-full w-full object-cover transition-transform group-hover:scale-105"
             />
           </div>
@@ -31,7 +31,7 @@ export function ProductList({ products, onAdd, onViewDetails }: ProductListProps
               className="text-lg font-semibold tracking-tight mb-1 cursor-pointer hover:text-primary transition-colors"
               onClick={() => onViewDetails(product.id)}
             >
-              {product.name}
+              {product.name || 'Unnamed product'}
             </h3>
             <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
               {product.description}

@@ -1,27 +1,79 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T03:12:57.768Z",
+  "generatedAt": "2026-02-06T03:26:27.089Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 5,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-10",
-        "summary": "Update the shop branding text so the app displays the shop name as \"Vikash Sports\" anywhere the shop/site title is shown (including the header title and the browser tab/page title).",
+        "id": "REQ-13",
+        "summary": "Add a Checkout view that can be reached from the Cart page via an enabled “Proceed to Checkout” button when the cart is not empty.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/SportsShopHeader.tsx",
-          "frontend/index.html",
+          "frontend/src/components/CartView.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/CheckoutView.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CartView.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/CheckoutView.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Implement a Checkout form that collects basic customer and shipping details using English user-facing labels and provides a clear order summary.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CheckoutView.tsx",
           "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/SportsShopHeader.tsx",
-          "frontend/index.html",
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Add backend order placement so the Checkout view can place an order and receive an order identifier.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Connect the Checkout view to the backend order placement API and show an Order Confirmation view after a successful order.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/backend.d.ts",
+          "frontend/src/lib/orders.ts",
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/components/OrderConfirmationView.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/backend.d.ts",
+          "frontend/src/lib/orders.ts",
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/components/OrderConfirmationView.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-17",
+        "summary": "Handle checkout edge cases gracefully (empty cart, backend errors) with clear English messages.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CheckoutView.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CheckoutView.tsx",
           "frontend/src/App.tsx"
         ]
       }
@@ -32,9 +84,12 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.html",
     "frontend/src/App.tsx",
-    "frontend/src/components/SportsShopHeader.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/components/CartView.tsx",
+    "frontend/src/components/CheckoutView.tsx",
+    "frontend/src/components/OrderConfirmationView.tsx",
+    "frontend/src/lib/orders.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

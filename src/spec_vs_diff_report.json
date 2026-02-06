@@ -1,16 +1,44 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T03:12:57.765Z",
-  "summary": "REQ-10 appears implemented: the header site title now displays exactly \"Vikash Sports\", and the browser tab/page title is set to \"Vikash Sports\" in the HTML entry point. No evidence of required backend changes (none requested).",
-  "missing_requirements": [],
+  "generatedAt": "2026-02-06T03:26:27.086Z",
+  "summary": "Frontend adds Checkout and Order Confirmation views and wires basic navigation and cart clearing, but backend order placement (Motoko actor changes) is not present in the diff summary, and some checkout edge-case behaviors are not fully evidenced due to truncation.",
+  "missing_requirements": [
+    {
+      "id": "REQ-15",
+      "requirement": "Add backend order placement so the Checkout view can place an order and receive an order identifier (order data model, createOrder method, persisted canister state).",
+      "reason": "The diff summary shows no changes to backend/main.mo (or any backend files) implementing an order model, a public createOrder method, or persisted order storage.",
+      "evidence": [
+        "File diff summary: Added/Modified files list contains only frontend files; no backend/main.mo changes shown.",
+        "frontend/src/lib/orders.ts: calls (actor as any).createOrder(request) with comment 'backend interface is not yet implemented'"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "requirement": "If the backend create-order call fails, show a non-technical English error message and allow retrying without losing typed form inputs.",
+      "reason": "CheckoutView includes a submitError state, but the error-handling UI/wording and retry behavior are not visible in the provided truncated content, so this acceptance criterion is not confirmed by the diff summary.",
+      "evidence": [
+        "frontend/src/components/CheckoutView.tsx (truncated): shows submitError state and begins handling actor-missing error ('Unable to connect to the backend. P...') but rest is truncated."
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "requirement": "The “Place order” button shows a loading state while the order is being submitted and prevents duplicate submissions.",
+      "reason": "CheckoutView defines isSubmitting state, but the actual button rendering/disabled/loading behavior is not visible in the truncated diff content, so this acceptance criterion is not confirmed.",
+      "evidence": [
+        "frontend/src/components/CheckoutView.tsx (truncated): defines const [isSubmitting, setIsSubmitting] = useState(false); but button usage not shown due to truncation."
+      ]
+    }
+  ],
   "hallucinated_features": [],
-  "confidence": 0.86,
+  "confidence": 0.64,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/index.html",
     "frontend/src/App.tsx",
-    "frontend/src/components/SportsShopHeader.tsx",
+    "frontend/src/components/CartView.tsx",
+    "frontend/src/components/CheckoutView.tsx",
+    "frontend/src/components/OrderConfirmationView.tsx",
+    "frontend/src/lib/orders.ts",
     "project_state.json"
   ]
 }

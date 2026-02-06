@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 9,
-  "summary": "Build a simple Sports Shop web app featuring a product list, basic cart functionality, and product details.",
+  "projectStateVersion": 13,
+  "summary": "Build a simple Sports Shop web app featuring a product list, product details, cart functionality (count + cart page), and a basic checkout flow.",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
@@ -85,6 +85,54 @@
         "REQ-10"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-cart-page-view-that-can-be-opened-from-the-header-and-shows-the-current-cart-contents",
+      "title": "Add a dedicated Cart page/view that can be opened from the header and shows the current cart contents.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-support-basic-cart-item-management-actions-on-the-cart-page-view-and-keep-the-header-cart-count-consistent-across-all-views",
+      "title": "Support basic cart item management actions on the Cart page/view and keep the header cart count consistent across all views.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-checkout-view-that-can-be-reached-from-the-cart-page-via-an-enabled-proceed-to-checkout-button-when-the-cart-is-not-empty",
+      "title": "Add a Checkout view that can be reached from the Cart page via an enabled “Proceed to Checkout” button when the cart is not empty.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-checkout-form-that-collects-basic-customer-and-shipping-details-using-english-user-facing-labels-and-provides-a-clear-order-summary",
+      "title": "Implement a Checkout form that collects basic customer and shipping details using English user-facing labels and provides a clear order summary.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-connect-the-checkout-view-to-the-backend-order-placement-api-and-show-an-order-confirmation-view-after-a-successful-order",
+      "title": "Connect the Checkout view to the backend order placement API and show an Order Confirmation view after a successful order.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-handle-checkout-edge-cases-gracefully-empty-cart-backend-errors-with-clear-english-messages",
+      "title": "Handle checkout edge cases gracefully (empty cart, backend errors) with clear English messages.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -104,6 +152,26 @@
       "id": "AR-3",
       "summary": "Ensure the product name is displayed in the UI (e.g., on product cards and/or any relevant product display areas)",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add a dedicated cart page/view (navigate from header and display cart contents)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add a basic checkout flow (proceed to checkout from cart and place order)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add backend order placement so the Checkout view can place an order and receive an order identifier.",
+      "reqIds": [
+        "REQ-15"
+      ],
       "status": "pending"
     }
   ],

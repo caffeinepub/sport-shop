@@ -2,23 +2,156 @@ import { useState } from 'react';
 import { SportsShopHeader } from './components/SportsShopHeader';
 import { ProductList } from './components/ProductList';
 import { ProductDetails } from './components/ProductDetails';
+import { CartView } from './components/CartView';
+import { CheckoutView } from './components/CheckoutView';
+import { OrderConfirmationView } from './components/OrderConfirmationView';
 import { products, type Product } from './data/products';
 import { Heart } from 'lucide-react';
 
-function App() {
-  const [cart, setCart] = useState<Product[]>([]);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+type View = 'list' | 'details' | 'cart' | 'checkout' | 'orderConfirmation';
 
+// Cart item with quantity tracking
+interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+// Order confirmation data
+interface OrderConfirmation {
+  orderId: string;
+  items: CartItem[];
+  subtotal: number;
+}
+
+function App() {
+  const [cartItems, setCartItems] = useState<Map<string, CartItem>>(new Map());
+  const [currentView, setCurrentView] = useState<View>('list');
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [orderConfirmation, setOrderConfirmation] = useState<OrderConfirmation | null>(null);
+
+  // Calculate total cart count (sum of all quantities)
+  const cartCount = Array.from(cartItems.values()).reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  // Add or increment product in cart
   const handleAddToCart = (product: Product) => {
-    setCart((prevCart) => [...prevCart, product]);
+    setCartItems((prevItems) => {
+      const newItems = new Map(prevItems);
+      const existing = newItems.get(product.id);
+      
+      if (existing) {
+        newItems.set(product.id, {
+          product,
+          quantity: existing.quantity + 1,
+        });
+      } else {
+        newItems.set(product.id, {
+          product,
+          quantity: 1,
+        });
+      }
+      
+      return newItems;
+    });
+  };
+
+  // Increment quantity
+  const handleIncrementQuantity = (productId: string) => {
+    setCartItems((prevItems) => {
+      const newItems = new Map(prevItems);
+      const existing = newItems.get(productId);
+      
+      if (existing) {
+        newItems.set(productId, {
+          ...existing,
+          quantity: existing.quantity + 1,
+        });
+      }
+      
+      return newItems;
+    });
+  };
+
+  // Decrement quantity (minimum 0)
+  const handleDecrementQuantity = (productId: string) => {
+    setCartItems((prevItems) => {
+      const newItems = new Map(prevItems);
+      const existing = newItems.get(productId);
+      
+      if (existing) {
+        const newQuantity = existing.quantity - 1;
+        if (newQuantity <= 0) {
+          newItems.delete(productId);
+        } else {
+          newItems.set(productId, {
+            ...existing,
+            quantity: newQuantity,
+          });
+        }
+      }
+      
+      return newItems;
+    });
+  };
+
+  // Remove item from cart
+  const handleRemoveFromCart = (productId: string) => {
+    setCartItems((prevItems) => {
+      const newItems = new Map(prevItems);
+      newItems.delete(productId);
+      return newItems;
+    });
+  };
+
+  // Clear cart
+  const handleClearCart = () => {
+    setCartItems(new Map());
   };
 
   const handleViewDetails = (productId: string) => {
     setSelectedProductId(productId);
+    setCurrentView('details');
   };
 
   const handleBackToList = () => {
     setSelectedProductId(null);
+    setCurrentView('list');
+  };
+
+  const handleNavigateToCart = () => {
+    setCurrentView('cart');
+  };
+
+  const handleProceedToCheckout = () => {
+    setCurrentView('checkout');
+  };
+
+  const handleBackToCart = () => {
+    setCurrentView('cart');
+  };
+
+  const handleOrderSuccess = (orderId: string) => {
+    // Calculate subtotal before clearing cart
+    const cartItemsArray = Array.from(cartItems.values());
+    const subtotal = cartItemsArray.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
+
+    // Store order confirmation data
+    setOrderConfirmation({
+      orderId,
+      items: cartItemsArray,
+      subtotal,
+    });
+
+    // Clear cart
+    handleClearCart();
+
+    // Navigate to confirmation
+    setCurrentView('orderConfirmation');
   };
 
   // Find the selected product
@@ -26,12 +159,43 @@ function App() {
     ? products.find(p => p.id === selectedProductId) 
     : null;
 
+  // Convert cart map to array for views
+  const cartItemsArray = Array.from(cartItems.values());
+
   return (
     <div className="min-h-screen bg-background">
-      <SportsShopHeader cartCount={cart.length} />
+      <SportsShopHeader 
+        cartCount={cartCount} 
+        onNavigateToCart={handleNavigateToCart}
+      />
       
       <main className="container py-8">
-        {selectedProductId ? (
+        {currentView === 'orderConfirmation' ? (
+          // Order Confirmation View
+          <OrderConfirmationView
+            orderId={orderConfirmation?.orderId || ''}
+            items={orderConfirmation?.items || []}
+            subtotal={orderConfirmation?.subtotal || 0}
+            onContinueShopping={handleBackToList}
+          />
+        ) : currentView === 'checkout' ? (
+          // Checkout View
+          <CheckoutView
+            items={cartItemsArray}
+            onBack={handleBackToCart}
+            onOrderSuccess={handleOrderSuccess}
+          />
+        ) : currentView === 'cart' ? (
+          // Cart View
+          <CartView
+            items={cartItemsArray}
+            onBack={handleBackToList}
+            onIncrement={handleIncrementQuantity}
+            onDecrement={handleDecrementQuantity}
+            onRemove={handleRemoveFromCart}
+            onProceedToCheckout={handleProceedToCheckout}
+          />
+        ) : currentView === 'details' ? (
           // Product Details View
           <ProductDetails 
             product={selectedProduct}

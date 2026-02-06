@@ -1,8 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 21,
+  "projectStateVersion": 35,
   "summary": "Build a simple Sports Shop web app featuring a product list, product details, cart functionality (count + cart page), and a basic checkout flow.",
-  "architectural_notes": [],
+  "architectural_notes": [
+    "User confirmed they want to proceed with implementing product filtering on the home/product list now (AR-17).",
+    "User confirmed they want to proceed with adding a payment method selection during checkout (AR-11)."
+  ],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
@@ -165,6 +168,134 @@
         "REQ-22"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-product-filtering-ui-to-the-product-list-home-view-that-lets-users-filter-the-displayed-products-by-a-free-text-search-query-and-by-price-range-minimum-and-maximum",
+      "title": "Add a product filtering UI to the product list (home) view that lets users filter the displayed products by a free-text search query and by price range (minimum and maximum).",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-filtering-behavior-and-empty-state-messaging-for-the-home-product-list-so-the-product-grid-updates-immediately-as-filters-change-and-handles-no-match-cases-gracefully",
+      "title": "Implement filtering behavior and empty-state messaging for the home/product list so the product grid updates immediately as filters change and handles no-match cases gracefully.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-like-and-favorite-product-actions-that-can-be-toggled-from-both-the-product-list-cards-and-the-product-details-view-and-visually-indicate-the-current-like-favorite-state-using-clear-icons-and-english-labels-tooltips",
+      "title": "Add Like and Favorite product actions that can be toggled from both the product list cards and the product details view, and visually indicate the current Like/Favorite state using clear icons and English labels/tooltips.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-favorites-view-that-users-can-open-from-the-header-showing-only-favorited-products-and-allowing-users-to-remove-favorites-and-open-product-details-from-the-favorites-list",
+      "title": "Add a dedicated Favorites view that users can open from the header, showing only favorited products and allowing users to remove favorites and open product details from the favorites list.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-share-for-products-from-relevant-views-product-list-cards-and-product-details-using-the-browser-share-capability-when-available-with-a-fallback-that-copies-a-shareable-product-link-to-the-clipboard-and-shows-an-english-confirmation-message",
+      "title": "Implement Share for products from relevant views (product list cards and product details) using the browser share capability when available, with a fallback that copies a shareable product link to the clipboard and shows an English confirmation message.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-like-and-favorite-states-locally-so-that-likes-favorites-are-retained-after-a-page-refresh-and-restored-on-app-load",
+      "title": "Persist Like and Favorite states locally so that likes/favorites are retained after a page refresh and restored on app load.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-homepage-hero-image-selection-control-that-lets-the-user-switch-the-main-front-image-shown-in-the-hero-section-on-the-home-product-list-view-the-image-currently-rendered-in-app-tsx",
+      "title": "Add a homepage “hero image” selection control that lets the user switch the main/front image shown in the Hero Section on the home/product list view (the image currently rendered in App.tsx).",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-the-selected-homepage-hero-image-option-locally-so-the-chosen-front-image-remains-selected-after-a-page-refresh",
+      "title": "Persist the selected homepage hero image option locally so the chosen front image remains selected after a page refresh.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-add-a-shop-logo-image-asset-and-display-it-in-the-header-alongside-the-existing-vikash-sports-branding",
+      "title": "Generate and add a shop logo image asset and display it in the header alongside the existing “Vikash Sports” branding.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-local-persistent-user-added-products-catalog-layer-so-new-products-created-in-the-ui-are-stored-in-the-browser-localstorage-and-merged-with-the-existing-seeded-catalog-at-runtime",
+      "title": "Add a local, persistent “user-added products” catalog layer so new products created in the UI are stored in the browser (localStorage) and merged with the existing seeded catalog at runtime.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-product-creation-ui-add-product-that-allows-the-user-to-add-a-new-product-to-the-catalog-with-fields-name-price-description-and-images-one-or-more-image-urls-using-clear-english-labels-and-helper-text",
+      "title": "Provide a product creation UI (“Add Product”) that allows the user to add a new product to the catalog with fields: Name, Price, Description, and Images (one or more image URLs), using clear English labels and helper text.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-validate-new-product-input-and-handle-edge-cases-gracefully-when-creating-products-with-clear-english-inline-errors-and-non-blocking-ui-behavior",
+      "title": "Validate new product input and handle edge cases gracefully when creating products, with clear English inline errors and non-blocking UI behavior.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-all-existing-catalog-dependent-features-work-with-user-added-products-including-product-details-navigation-deep-linking-by-productid-add-to-cart-filtering-share-links-and-like-favorite-toggles",
+      "title": "Ensure all existing catalog-dependent features work with user-added products, including: product details navigation/deep-linking by productId, add-to-cart, filtering, share links, and like/favorite toggles.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enhance-the-product-image-gallery-on-the-product-details-view-so-users-can-browse-multiple-product-images-more-easily-including-previous-next-controls-a-clear-active-thumbnail-indication-and-an-optional-full-screen-lightbox-view-with-keyboard-navigation-esc-to-close-left-right-arrows-to-switch-images",
+      "title": "Enhance the product image gallery on the Product Details view so users can browse multiple product images more easily, including previous/next controls, a clear active-thumbnail indication, and an optional full-screen/lightbox view with keyboard navigation (Esc to close, Left/Right arrows to switch images).",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-add-product-dialog-to-provide-a-simple-in-form-gallery-preview-of-the-entered-image-urls-and-clearly-indicate-when-an-entered-image-url-fails-to-load-so-users-can-correct-it-before-saving",
+      "title": "Update the Add Product dialog to provide a simple in-form gallery preview of the entered image URLs, and clearly indicate when an entered image URL fails to load so users can correct it before saving.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-seeded-catalog-s-repeated-placeholder-images-with-distinct-generated-images-per-product-multiple-per-product-where-applicable-so-the-gallery-experience-is-meaningful-for-seeded-products",
+      "title": "Replace the seeded catalog’s repeated placeholder images with distinct generated images per product (multiple per product where applicable) so the gallery experience is meaningful for seeded products.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -241,6 +372,54 @@
     {
       "id": "AR-16",
       "summary": "Add more products to the home page/catalog (e.g., Jacket, Half Pant, Full Pant, Football, T-Shirt) as additional product options.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Add product filtering on the homepage/product list (allow users to filter the displayed products)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Add a Like option for products (allow users to like products from relevant views)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Add a Favorites feature (allow users to favorite products and access/view their favorites)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Add Share options for products (allow users to share product links/details)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Add front/home page image change options (allow updating the main/front image shown in the UI)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Add a shop logo to the UI (display in header/branding areas)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Add product add options (provide a way to add new products to the catalog/product list)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Add a product gallery (display multiple product images in the UI, e.g., on product details)",
       "reqIds": [],
       "status": "pending"
     }

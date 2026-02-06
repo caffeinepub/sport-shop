@@ -1,24 +1,6 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Extend seeded home catalog with additional products",
-  "requirements": [
-    {
-      "id": "REQ-22",
-      "summary": "Add Jacket, Half Pant, Full Pant, and Football T-Shirt to the seeded product catalog so they appear on the home grid, open in product details, and can be added to cart like existing items.",
-      "acceptanceCriteria": [
-        "`frontend/src/data/products.ts` includes new `Product` entries for: \"Jacket\", \"Half Pant\", \"Full Pant\", and \"Football T-Shirt\" with unique `id` values, `price` values, English `description` text, and a non-empty `images` array for each.",
-        "The home page product list displays the newly added products alongside the existing seeded products without layout issues.",
-        "Each newly added product can be opened in the product details view and shows its name, price, description, and images.",
-        "Each newly added product can be added to the cart from both the product list and product details views, and the header cart count updates accordingly."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/data/products.ts",
-          "operation": "modify",
-          "description": "Extend the exported seeded `products` array by adding 4 new `Product` entries named \"Jacket\", \"Half Pant\", \"Full Pant\", and \"Football T-Shirt\" with unique string `id`s (not colliding with existing ids), reasonable `price` numbers, English `description` text, and non-empty `images` arrays (use the existing placeholder asset path already used by other products)."
-        }
-      ]
-    }
-  ]
+  "title": "Add payment method during checkout",
+  "requirements": []
 }

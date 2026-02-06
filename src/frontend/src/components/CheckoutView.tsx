@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, CreditCard, Banknote, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useActor } from '../hooks/useActor';
 import { createOrder } from '../lib/orders';
 import type { Product } from '../data/products';
@@ -20,6 +21,8 @@ interface CheckoutViewProps {
   onOrderSuccess: (orderId: string, customerName: string, customerEmail: string) => void;
 }
 
+type PaymentMethod = 'credit-card' | 'debit-card' | 'cash-on-delivery';
+
 export function CheckoutView({ items, onBack, onOrderSuccess }: CheckoutViewProps) {
   const { actor } = useActor();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +36,14 @@ export function CheckoutView({ items, onBack, onOrderSuccess }: CheckoutViewProp
     postalCode: '',
   });
 
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('credit-card');
+  const [paymentData, setPaymentData] = useState({
+    cardNumber: '',
+    cardName: '',
+    expiryDate: '',
+    cvv: '',
+  });
+
   const subtotal = items.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
@@ -43,14 +54,59 @@ export function CheckoutView({ items, onBack, onOrderSuccess }: CheckoutViewProp
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handlePaymentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    
+    // Format card number with spaces
+    if (name === 'cardNumber') {
+      const cleaned = value.replace(/\s/g, '');
+      const formatted = cleaned.match(/.{1,4}/g)?.join(' ') || cleaned;
+      setPaymentData((prev) => ({ ...prev, [name]: formatted }));
+      return;
+    }
+    
+    // Format expiry date as MM/YY
+    if (name === 'expiryDate') {
+      const cleaned = value.replace(/\D/g, '');
+      let formatted = cleaned;
+      if (cleaned.length >= 2) {
+        formatted = cleaned.slice(0, 2) + '/' + cleaned.slice(2, 4);
+      }
+      setPaymentData((prev) => ({ ...prev, [name]: formatted }));
+      return;
+    }
+    
+    setPaymentData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Validate form
+    // Validate shipping form
     if (!formData.fullName || !formData.email || !formData.addressLine || !formData.city || !formData.postalCode) {
-      setError('Please fill in all fields');
+      setError('Please fill in all shipping fields');
       return;
+    }
+
+    // Validate payment method
+    if (paymentMethod === 'credit-card' || paymentMethod === 'debit-card') {
+      if (!paymentData.cardNumber || !paymentData.cardName || !paymentData.expiryDate || !paymentData.cvv) {
+        setError('Please fill in all payment details');
+        return;
+      }
+      
+      // Basic validation
+      const cardNumberDigits = paymentData.cardNumber.replace(/\s/g, '');
+      if (cardNumberDigits.length < 13 || cardNumberDigits.length > 19) {
+        setError('Please enter a valid card number');
+        return;
+      }
+      
+      if (paymentData.cvv.length < 3 || paymentData.cvv.length > 4) {
+        setError('Please enter a valid CVV');
+        return;
+      }
     }
 
     if (items.length === 0) {
@@ -103,107 +159,219 @@ export function CheckoutView({ items, onBack, onOrderSuccess }: CheckoutViewProp
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Checkout Form */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Shipping Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  placeholder="John Doe"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="john@example.com"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="addressLine">Address</Label>
-                <Input
-                  id="addressLine"
-                  name="addressLine"
-                  value={formData.addressLine}
-                  onChange={handleInputChange}
-                  placeholder="123 Main St"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-6">
+          {/* Shipping Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Shipping Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
+                  <Label htmlFor="fullName">Full Name</Label>
                   <Input
-                    id="city"
-                    name="city"
-                    value={formData.city}
+                    id="fullName"
+                    name="fullName"
+                    value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="New York"
+                    placeholder="John Doe"
                     required
                     disabled={isSubmitting}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="postalCode">Postal Code</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
-                    id="postalCode"
-                    name="postalCode"
-                    value={formData.postalCode}
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="10001"
+                    placeholder="john@example.com"
                     required
                     disabled={isSubmitting}
                   />
                 </div>
-              </div>
 
-              {error && (
-                <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-                  {error}
+                <div className="space-y-2">
+                  <Label htmlFor="addressLine">Address</Label>
+                  <Input
+                    id="addressLine"
+                    name="addressLine"
+                    value={formData.addressLine}
+                    onChange={handleInputChange}
+                    placeholder="123 Main St"
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City</Label>
+                    <Input
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      placeholder="New York"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="postalCode">Postal Code</Label>
+                    <Input
+                      id="postalCode"
+                      name="postalCode"
+                      value={formData.postalCode}
+                      onChange={handleInputChange}
+                      placeholder="10001"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          {/* Payment Method */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Payment Method</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <RadioGroup
+                value={paymentMethod}
+                onValueChange={(value) => setPaymentMethod(value as PaymentMethod)}
+                disabled={isSubmitting}
+              >
+                <div className="flex items-center space-x-3 rounded-lg border border-border p-4 hover:bg-muted/50 transition-colors">
+                  <RadioGroupItem value="credit-card" id="credit-card" />
+                  <Label htmlFor="credit-card" className="flex items-center gap-3 cursor-pointer flex-1">
+                    <CreditCard className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-medium">Credit Card</span>
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-3 rounded-lg border border-border p-4 hover:bg-muted/50 transition-colors">
+                  <RadioGroupItem value="debit-card" id="debit-card" />
+                  <Label htmlFor="debit-card" className="flex items-center gap-3 cursor-pointer flex-1">
+                    <Wallet className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-medium">Debit Card</span>
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-3 rounded-lg border border-border p-4 hover:bg-muted/50 transition-colors">
+                  <RadioGroupItem value="cash-on-delivery" id="cash-on-delivery" />
+                  <Label htmlFor="cash-on-delivery" className="flex items-center gap-3 cursor-pointer flex-1">
+                    <Banknote className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-medium">Cash on Delivery</span>
+                  </Label>
+                </div>
+              </RadioGroup>
+
+              {/* Card Details Form */}
+              {(paymentMethod === 'credit-card' || paymentMethod === 'debit-card') && (
+                <div className="space-y-4 pt-4 border-t border-border">
+                  <div className="space-y-2">
+                    <Label htmlFor="cardNumber">Card Number</Label>
+                    <Input
+                      id="cardNumber"
+                      name="cardNumber"
+                      value={paymentData.cardNumber}
+                      onChange={handlePaymentInputChange}
+                      placeholder="1234 5678 9012 3456"
+                      maxLength={19}
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="cardName">Cardholder Name</Label>
+                    <Input
+                      id="cardName"
+                      name="cardName"
+                      value={paymentData.cardName}
+                      onChange={handlePaymentInputChange}
+                      placeholder="John Doe"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="expiryDate">Expiry Date</Label>
+                      <Input
+                        id="expiryDate"
+                        name="expiryDate"
+                        value={paymentData.expiryDate}
+                        onChange={handlePaymentInputChange}
+                        placeholder="MM/YY"
+                        maxLength={5}
+                        required
+                        disabled={isSubmitting}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="cvv">CVV</Label>
+                      <Input
+                        id="cvv"
+                        name="cvv"
+                        type="password"
+                        value={paymentData.cvv}
+                        onChange={handlePaymentInputChange}
+                        placeholder="123"
+                        maxLength={4}
+                        required
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
 
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  'Place Order'
-                )}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+              {paymentMethod === 'cash-on-delivery' && (
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    Pay with cash when your order is delivered. Please keep the exact amount ready.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {error && (
+            <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+              {error}
+            </div>
+          )}
+
+          <Button
+            onClick={handleSubmit}
+            className="w-full"
+            size="lg"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              'Place Order'
+            )}
+          </Button>
+        </div>
 
         {/* Order Summary */}
-        <Card>
+        <Card className="h-fit">
           <CardHeader>
             <CardTitle>Order Summary</CardTitle>
           </CardHeader>

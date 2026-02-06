@@ -1,11 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Expand the seeded home catalog with additional apparel products that behave like existing items.
+**Goal:** Allow shoppers to choose a payment method during checkout without integrating third-party payment processors or collecting real payment details.
 
 **Planned changes:**
-- Add new seeded `Product` entries in `frontend/src/data/products.ts` for: Jacket, Half Pant, Full Pant, and Football T-Shirt (each with unique `id`, `price`, English `description`, and a non-empty `images` array).
-- Ensure the home page product grid renders the added products without layout issues and supports opening their product details view.
-- Ensure the added products can be added to the cart from both the product list and product details views, updating the header cart count.
+- Add a payment method selection step/section in the checkout flow (e.g., options like Cash on Delivery and Pay on Delivery).
+- Persist the selected payment method as part of the order/checkout submission so it appears in order details/confirmation.
 
-**User-visible outcome:** Users see Jacket, Half Pant, Full Pant, and Football T-Shirt on the home product grid, can open each product’s details, and can add them to the cart like existing products.
+**User-visible outcome:** During checkout, users can select a payment method and see that choice reflected when placing and reviewing the order.

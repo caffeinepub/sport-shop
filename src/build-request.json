@@ -1,50 +1,19 @@
 {
   "kind": "build_request",
-  "title": "Add more product options to the home catalog (Jacket, Half Pant, Full Pant, Football T-Shirt)",
+  "title": "Add payment method during checkout",
   "priority": "normal",
-  "requirements": [
-    {
-      "id": "REQ-22",
-      "text": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-3"
-        ],
-        "quotes": [
-          "Build home page and add jacket.half pant.fullpant.football t shirt more product options"
-        ]
-      },
-      "acceptanceCriteria": [
-        "`frontend/src/data/products.ts` includes new `Product` entries for: \"Jacket\", \"Half Pant\", \"Full Pant\", and \"Football T-Shirt\" with unique `id` values, `price` values, English `description` text, and a non-empty `images` array for each.",
-        "The home page product list displays the newly added products alongside the existing seeded products without layout issues.",
-        "Each newly added product can be opened in the product details view and shows its name, price, description, and images.",
-        "Each newly added product can be added to the cart from both the product list and product details views, and the header cart count updates accordingly."
-      ]
-    }
-  ],
+  "requirements": [],
   "constraints": [
-    "Use English for any user-facing text.",
-    "Do not edit files under `frontend/src/components/ui` or other paths listed in `frontend.immutablePaths`.",
-    "Backend must remain single-actor; only add backend changes if required (not required for this request)."
+    "Do not edit any files under frontend/src/components/ui or other paths listed in frontend.immutablePaths.",
+    "Keep all Motoko backend logic in the single actor at backend/main.mo; only add backend/migration.mo if an upgrade requires state migration.",
+    "Use English for all user-facing text."
   ],
   "nonGoals": [
-    "Implementing new backend product APIs or persisting a product catalog in the backend.",
-    "Adding new pages beyond the existing home/product details/cart/checkout/order views.",
-    "Changing the existing visual theme unless required to accommodate the added products."
+    "Adding third-party payment processing (e.g., Stripe, PayPal) or external wallet integrations.",
+    "Storing or processing real card/bank details."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

@@ -1,34 +1,22 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-06T04:07:12.191Z",
+  "generatedAt": "2026-02-06T05:00:12.009Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
-    "items": [
-      {
-        "id": "REQ-22",
-        "summary": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/data/products.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/data/products.ts"
-        ]
-      }
-    ]
+    "total": 0,
+    "implemented": 0,
+    "items": []
   },
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/data/products.ts",
+    "frontend/src/components/CheckoutView.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

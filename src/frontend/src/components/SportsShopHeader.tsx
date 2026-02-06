@@ -1,17 +1,21 @@
-import { ShoppingBag, History } from 'lucide-react';
+import { ShoppingBag, History, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SportsShopHeaderProps {
   cartCount: number;
+  favoritesCount: number;
   onNavigateToCart: () => void;
   onNavigateToOrderHistory: () => void;
+  onNavigateToFavorites: () => void;
   onNavigateHome: () => void;
 }
 
 export function SportsShopHeader({ 
   cartCount, 
+  favoritesCount,
   onNavigateToCart, 
   onNavigateToOrderHistory,
+  onNavigateToFavorites,
   onNavigateHome 
 }: SportsShopHeaderProps) {
   return (
@@ -19,12 +23,30 @@ export function SportsShopHeader({
       <div className="container flex h-16 items-center justify-between">
         <button
           onClick={onNavigateHome}
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity min-w-0"
         >
-          <h1 className="text-2xl font-bold tracking-tight">Vikash Sports</h1>
+          <img
+            src="/assets/generated/vikash-sports-logo.dim_256x256.png"
+            alt="Vikash Sports logo"
+            className="h-10 w-10 object-contain flex-shrink-0"
+          />
+          <h1 className="text-2xl font-bold tracking-tight truncate">Vikash Sports</h1>
         </button>
         
         <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onNavigateToFavorites}
+            className="gap-2"
+          >
+            <Heart className="h-4 w-4" />
+            <span className="hidden sm:inline">Favorites</span>
+            {favoritesCount > 0 && (
+              <span className="ml-1 text-xs font-semibold">({favoritesCount})</span>
+            )}
+          </Button>
+
           <Button
             variant="ghost"
             size="sm"

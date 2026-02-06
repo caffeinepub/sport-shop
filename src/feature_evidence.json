@@ -1,23 +1,4 @@
 {
   "kind": "feature_evidence_report",
-  "features": [
-    {
-      "featureId": "feature-extend-the-seeded-product-catalog-to-include-additional-product-options-jacket-half-pant-full-pant-and-football-t-shirt-english-names-so-these-products-appear-on-the-home-page-product-grid-and-can-be-opened-in-the-product-details-view-and-added-to-the-cart-like-existing-products",
-      "featureTitle": "Extend the seeded product catalog to include additional product options: Jacket, Half Pant, Full Pant, and Football T-Shirt (English names), so these products appear on the home page product grid and can be opened in the product details view and added to the cart like existing products.",
-      "files": [
-        "frontend/src/data/products.ts"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-22"
-      ],
-      "confidence": "high"
-    }
-  ]
+  "features": []
 }

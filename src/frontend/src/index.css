@@ -81,4 +81,9 @@
         @apply bg-background text-foreground;
         font-feature-settings: "rlig" 1, "calt" 1;
     }
+
+    /* Prevent body scroll when lightbox is open */
+    body.lightbox-open {
+        overflow: hidden;
+    }
 }

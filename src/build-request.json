@@ -1,0 +1,83 @@
+{
+  "kind": "build_request",
+  "title": "Add product details view for each product",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-6",
+      "text": "Add a product details view/page that can be opened from the product list for a specific product, showing that product’s name, image, price, and full description.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-7"
+        ],
+        "quotes": [
+          "Add Product details"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each product card in the product list provides a clear way to open product details (e.g., clicking the card or a dedicated “View details” action).",
+        "The product details view displays the selected product’s name, image, price, and full description in a readable layout.",
+        "There is a clear way to return to the product list from the product details view (e.g., a “Back” button/link)."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Allow adding the currently viewed product to the cart from the product details view, and ensure the cart count in the header updates consistently across both the product list and product details views.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-7"
+        ],
+        "quotes": [
+          "Add Product details"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The product details view includes an “Add to cart” action for the selected product.",
+        "Clicking “Add to cart” on the product details view increases the header cart count by 1.",
+        "The cart count remains correct when navigating back and forth between the product list and product details views during the same session."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Handle invalid or missing product selection gracefully when opening the product details view (e.g., show a simple “Product not found” message with a way to return to the product list).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-7"
+        ],
+        "quotes": [
+          "Add Product details"
+        ]
+      },
+      "acceptanceCriteria": [
+        "If the app attempts to show product details for a product ID that does not exist, the UI shows an English “Product not found” message.",
+        "From the “Product not found” state, the user can navigate back to the product list."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit files under frontend/src/components/ui or any other paths listed as immutable in SYSTEM_CONTEXT.",
+    "Keep all backend logic in the single Motoko actor (backend/main.mo); only add backend code if it is required for product details (it is not required for a purely frontend details view)."
+  ],
+  "nonGoals": [
+    "Implementing a cart page or checkout flow.",
+    "Persisting cart contents across page reloads.",
+    "Adding backend APIs or storage for products (continue using the existing seeded frontend product data unless explicitly requested)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

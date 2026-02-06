@@ -1,0 +1,79 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Product details view with cart integration",
+  "requirements": [
+    {
+      "id": "REQ-6",
+      "summary": "Add a navigable product details view from the product list that shows name, image, price, and full description.",
+      "acceptanceCriteria": [
+        "Each product card in the product list provides a clear way to open product details (e.g., clicking the card or a dedicated “View details” action).",
+        "The product details view displays the selected product’s name, image, price, and full description in a readable layout.",
+        "There is a clear way to return to the product list from the product details view (e.g., a “Back” button/link)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProductDetails.tsx",
+          "operation": "create",
+          "description": "Create a ProductDetails view component that renders a selected product’s name, image (reuse existing product placeholder asset), price, and full description, and exposes callbacks for “Back” navigation and “Add to cart” (wire-up handled by App)."
+        },
+        {
+          "path": "frontend/src/components/ProductList.tsx",
+          "operation": "modify",
+          "description": "Add a clear “View details” affordance (and/or make the card clickable) that triggers a new callback (e.g., onViewDetails(productId)) so a specific product can be opened from the list."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the product details view into the app by adding UI state for the currently selected product (by id) and conditionally rendering ProductList vs ProductDetails, including a clear way to navigate back to the list."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Enable adding to cart from the product details view and keep the header cart count consistent across list and details views during the session.",
+      "acceptanceCriteria": [
+        "The product details view includes an “Add to cart” action for the selected product.",
+        "Clicking “Add to cart” on the product details view increases the header cart count by 1.",
+        "The cart count remains correct when navigating back and forth between the product list and product details views during the same session."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Keep cart state in App as the single source of truth; pass the same add-to-cart handler to both ProductList and ProductDetails so header cart count (cart.length) updates consistently across navigation."
+        },
+        {
+          "path": "frontend/src/components/ProductDetails.tsx",
+          "operation": "modify",
+          "description": "Add an “Add to cart” button that calls the provided add-to-cart callback with the currently displayed product."
+        },
+        {
+          "path": "frontend/src/components/SportsShopHeader.tsx",
+          "operation": "modify",
+          "description": "Confirm header continues to reflect the cartCount prop correctly across views (no behavior change expected; adjust only if needed to support the updated App wiring)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Gracefully handle invalid or missing product selection in the product details view with a “Product not found” message and a way back to the product list.",
+      "acceptanceCriteria": [
+        "If the app attempts to show product details for a product ID that does not exist, the UI shows an English “Product not found” message.",
+        "From the “Product not found” state, the user can navigate back to the product list."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProductDetails.tsx",
+          "operation": "modify",
+          "description": "Implement a “Product not found” state when the provided product is missing/undefined, and render a clear action to return to the product list via the provided Back callback."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "When selecting a product id, look up the product from the seeded catalog; if not found, render ProductDetails in not-found mode and ensure Back returns to the list safely."
+        }
+      ]
+    }
+  ]
+}

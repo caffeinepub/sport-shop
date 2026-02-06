@@ -1,0 +1,18 @@
+{
+  "backend/main.mo": "Empty Motoko actor with no functionality.",
+  "feature_evidence.json": "Lists implemented features, related files, components, tests, and confidence metadata.",
+  "frontend-file-summaries.txt": "Prewritten summaries describing core frontend files and their roles in the app.",
+  "frontend/index.css": "Tailwind base file defining global OKLCH color variables, theming tokens, and dark mode overrides.",
+  "frontend/index.html": "HTML entry point containing the root div and script loading the React app.",
+  "frontend/src/App.tsx": "Main React component managing cart state and product navigation, rendering list or details view with header and footer.",
+  "frontend/src/components/ProductDetails.tsx": "Displays full product info with image, description, price, add‑to‑cart button, and a fallback not‑found view.",
+  "frontend/src/components/ProductList.tsx": "Renders a grid of product cards with view‑details and add‑to‑cart actions.",
+  "frontend/src/components/SportsShopHeader.tsx": "Header showing the app title and dynamic cart count with icon.",
+  "frontend/src/data/products.ts": "Defines Product type and exports a seeded list of five sports products.",
+  "frontend/src/hooks/useActor.ts": "React hook creating and managing a backend actor tied to Internet Identity, with query invalidation on identity changes.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides a React context and provider to manage Internet Identity authentication, exposing identity state, login, and logout helpers.",
+  "frontend/src/index.css": "Defines Tailwind base layers and custom CSS variables for light and dark themes.",
+  "frontend/src/main.tsx": "Bootstraps the React app, wrapping it with React Query and the Internet Identity provider.",
+  "frontend/tailwind.config.js": "Configures Tailwind theme settings, colors, fonts, and plugins for the project.",
+  "project_state.json": "Stores project metadata, feature definitions, and pending feature requests for the Sports Shop app."
+}
